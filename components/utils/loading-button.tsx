@@ -1,14 +1,13 @@
 "use client"
 
-import React from "react"
 import { Button } from "../ui/button"
-import { useFormStatus } from "react-dom"
 import { Spinner } from "../ui/spinner"
+import Image from "next/image"
 
 export default function LoadingButton({
   loading,
   disabled,
-  icon,
+  logo,
   label,
   loadingLabel,
   onClick,
@@ -17,7 +16,7 @@ export default function LoadingButton({
   disabled?: boolean
   label: string
   loadingLabel?: string
-  icon?: React.ReactNode
+  logo?: string
   onClick?: () => void
 }) {
   return (
@@ -34,7 +33,7 @@ export default function LoadingButton({
         </div>
       ) : (
         <>
-          {icon}
+          {logo ? <Image src={logo} width={18} height={18} alt="logo" /> : null}
           {label}
         </>
       )}

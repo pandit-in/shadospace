@@ -6,21 +6,6 @@ import { authClient } from "@/lib/auth-client"
 import { Skeleton } from "../ui/skeleton"
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
 import { Button } from "@/components/ui/button"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import {
-  BadgeCheckIcon,
-  BellIcon,
-  CreditCardIcon,
-  LogOutIcon,
-} from "lucide-react"
 
 export function Header() {
   const { data: session, isPending } = authClient.useSession()
@@ -34,43 +19,24 @@ export function Header() {
         {isPending ? (
           <Skeleton className="h-8 w-8 animate-pulse rounded-full" />
         ) : session?.user ? (
-          <div>
-            <DropdownMenu>
-              <DropdownMenuTrigger
-                render={
-                  <Avatar>
-                    <AvatarImage
-                      src={session.user.image ?? ""}
-                      alt={session.user.name[0].toUpperCase() ?? ""}
-                    />
-                    <AvatarFallback>
-                      {session.user.name.substring(0, 2).toUpperCase()}
-                    </AvatarFallback>
-                  </Avatar>
+          <div className="flex items-center gap-2">
+            <Button
+              variant={"destructive"}
+              onClick={() => authClient.signOut()}
+            >
+              Sign Out
+            </Button>
+            <Avatar className="size-8">
+              <AvatarImage
+                src={
+                  session.user.image ||
+                  `https://ui-avatars.com/api/?name=${session.user.name}&size=32`
                 }
               />
-              <DropdownMenuContent align="end" className={"w-fit"}>
-                <DropdownMenuGroup>
-                  <DropdownMenuItem>
-                    <BadgeCheckIcon />
-                    Account
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <CreditCardIcon />
-                    Billing
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <BellIcon />
-                    Notifications
-                  </DropdownMenuItem>
-                </DropdownMenuGroup>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                  <LogOutIcon />
-                  Sign Out
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+              <AvatarFallback>
+                {session.user.name?.slice(0, 2).toUpperCase() || ""}
+              </AvatarFallback>
+            </Avatar>
           </div>
         ) : (
           <Link href={"/signup"}>

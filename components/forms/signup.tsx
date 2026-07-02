@@ -31,6 +31,8 @@ import {
   CardTitle,
 } from "../ui/card"
 import Image from "next/image"
+import { authClient } from "@/lib/auth-client"
+import LoadingButton from "../utils/loading-button"
 
 const formSchema = z.object({
   name: z.string().min(1, "Name is required."),
@@ -47,6 +49,27 @@ export function SignUpForm() {
       password: "",
     },
   })
+
+  const [loadingProvider, setLoadingProvider] = React.useState<
+    "google" | "github" | null
+  >(null)
+
+  async function handleSocial(provider: "google" | "github") {
+    setLoadingProvider(provider)
+    try {
+      const { error } = await authClient.signIn.social({
+        provider,
+        callbackURL: "/",
+      })
+      if (error) {
+        toast.error(error.message)
+      }
+    } catch (e: any) {
+      toast.error(e?.message || "An error occurred during sign in")
+    } finally {
+      setLoadingProvider(null)
+    }
+  }
 
   function onSubmit(data: z.infer<typeof formSchema>) {
     toast("You submitted the following values:", {
@@ -81,29 +104,32 @@ export function SignUpForm() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form id="form-signup" onSubmit={form.handleSubmit(onSubmit)}>
+          <div>
+            <Field>
+              <LoadingButton
+                loading={loadingProvider === "google"}
+                disabled={loadingProvider !== null}
+                loadingLabel="Redirecting to google..."
+                label="Continue with Google"
+                logo={"/google.png"}
+                onClick={() => handleSocial("google")}
+              />
+              <LoadingButton
+                loading={loadingProvider === "github"}
+                disabled={loadingProvider !== null}
+                loadingLabel="Redirecting to github..."
+                label="Continue with github"
+                logo={"/github.png"}
+                onClick={() => handleSocial("github")}
+              />
+            </Field>
+          </div>
+          <form
+            className="mt-4"
+            id="form-signup"
+            onSubmit={form.handleSubmit(onSubmit)}
+          >
             <FieldGroup className="gap-3">
-              <Field>
-                <Button className="w-full" type="submit" variant={"outline"}>
-                  <Image
-                    src={"/google.png"}
-                    width={15}
-                    height={15}
-                    alt="google"
-                  />
-                  Continue with google
-                </Button>
-                <Button className="w-full" type="submit" variant={"outline"}>
-                  <Image
-                    src={"/github.png"}
-                    width={16}
-                    height={16}
-                    alt="github"
-                    className="dark:invert"
-                  />
-                  Continue with github
-                </Button>
-              </Field>
               <Controller
                 name="name"
                 control={form.control}

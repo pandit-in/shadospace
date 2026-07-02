@@ -43,7 +43,9 @@ export function SignInForm() {
     },
   })
 
-  const [loadingProvider, setLoadingProvider] = React.useState<"google" | "github" | null>(null)
+  const [loadingProvider, setLoadingProvider] = React.useState<
+    "google" | "github" | null
+  >(null)
 
   async function handleSocial(provider: "google" | "github") {
     setLoadingProvider(provider)
@@ -102,14 +104,7 @@ export function SignInForm() {
                 disabled={loadingProvider !== null}
                 loadingLabel="Redirecting to google..."
                 label="Continue with Google"
-                icon={
-                  <Image
-                    src={"/google.png"}
-                    width={15}
-                    height={15}
-                    alt="google"
-                  />
-                }
+                logo={"/google.png"}
                 onClick={() => handleSocial("google")}
               />
               <LoadingButton
@@ -117,15 +112,7 @@ export function SignInForm() {
                 disabled={loadingProvider !== null}
                 loadingLabel="Redirecting to github..."
                 label="Continue with github"
-                icon={
-                  <Image
-                    src={"/github.png"}
-                    width={16}
-                    height={16}
-                    alt="github"
-                    className="dark:invert"
-                  />
-                }
+                logo={"/github.png"}
                 onClick={() => handleSocial("github")}
               />
             </Field>
