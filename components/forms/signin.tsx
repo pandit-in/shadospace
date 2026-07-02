@@ -28,6 +28,9 @@ import {
 import { Checkbox } from "../ui/checkbox"
 import { authClient } from "@/lib/auth-client"
 
+import { FcGoogle } from "react-icons/fc"
+import { FaGithub } from "react-icons/fa"
+
 const formSchema = z.object({
   email: z.email("Invalid email address."),
   password: z.string().min(8, "Password must be at least 8 characters."),
@@ -103,7 +106,7 @@ export function SignInForm() {
                 onClick={() => handleSocial("google")}
                 className="w-full gap-2"
               >
-                <Image src={"/google.png"} alt="logo" width={24} height={24} />
+                <FcGoogle />
                 Continue with Google
               </Button>
               <Button
@@ -111,7 +114,7 @@ export function SignInForm() {
                 onClick={() => handleSocial("github")}
                 className="w-full gap-2"
               >
-                <Image src={"/github.png"} alt="logo" width={24} height={24} />
+                <FaGithub />
                 Continue with github
               </Button>
             </Field>

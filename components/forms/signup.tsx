@@ -15,12 +15,6 @@ import {
   FieldLabel,
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupText,
-  InputGroupTextarea,
-} from "@/components/ui/input-group"
 import Link from "next/link"
 import {
   Card,
@@ -33,6 +27,9 @@ import {
 import Image from "next/image"
 import { authClient } from "@/lib/auth-client"
 import { Spinner } from "../ui/spinner"
+
+import { FcGoogle } from "react-icons/fc"
+import { FaGithub } from "react-icons/fa"
 
 const formSchema = z.object({
   name: z.string().min(1, "Name is required."),
@@ -112,16 +109,7 @@ export function SignUpForm() {
                 onClick={() => handleSocial("google")}
                 className="w-full gap-2"
               >
-                {loadingProvider === "google" ? (
-                  <Spinner />
-                ) : (
-                  <Image
-                    src={"/google.png"}
-                    alt="logo"
-                    width={18}
-                    height={18}
-                  />
-                )}
+                {loadingProvider === "google" ? <Spinner /> : <FcGoogle />}
                 Continue with Google
               </Button>
               <Button
@@ -130,17 +118,7 @@ export function SignUpForm() {
                 onClick={() => handleSocial("github")}
                 className="w-full gap-2"
               >
-                {loadingProvider === "github" ? (
-                  <Spinner />
-                ) : (
-                  <Image
-                    className="dark:invert"
-                    src={"/github.png"}
-                    alt="logo"
-                    width={18}
-                    height={18}
-                  />
-                )}
+                {loadingProvider === "github" ? <Spinner /> : <FaGithub />}
                 Continue with github
               </Button>
             </Field>
