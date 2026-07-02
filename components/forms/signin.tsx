@@ -27,7 +27,6 @@ import {
 } from "../ui/card"
 import { Checkbox } from "../ui/checkbox"
 import { authClient } from "@/lib/auth-client"
-import LoadingButton from "../utils/loading-button"
 
 const formSchema = z.object({
   email: z.email("Invalid email address."),
@@ -99,22 +98,22 @@ export function SignInForm() {
         <CardContent>
           <div>
             <Field>
-              <LoadingButton
-                loading={loadingProvider === "google"}
-                disabled={loadingProvider !== null}
-                loadingLabel="Redirecting to google..."
-                label="Continue with Google"
-                logo={"/google.png"}
+              <Button
+                disabled={loadingProvider === "google"}
                 onClick={() => handleSocial("google")}
-              />
-              <LoadingButton
-                loading={loadingProvider === "github"}
-                disabled={loadingProvider !== null}
-                loadingLabel="Redirecting to github..."
-                label="Continue with github"
-                logo={"/github.png"}
+                className="w-full gap-2"
+              >
+                <Image src={"/google.png"} alt="logo" width={24} height={24} />
+                Continue with Google
+              </Button>
+              <Button
+                disabled={loadingProvider === "github"}
                 onClick={() => handleSocial("github")}
-              />
+                className="w-full gap-2"
+              >
+                <Image src={"/github.png"} alt="logo" width={24} height={24} />
+                Continue with github
+              </Button>
             </Field>
           </div>
           <form

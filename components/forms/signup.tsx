@@ -32,7 +32,7 @@ import {
 } from "../ui/card"
 import Image from "next/image"
 import { authClient } from "@/lib/auth-client"
-import LoadingButton from "../utils/loading-button"
+import { Spinner } from "../ui/spinner"
 
 const formSchema = z.object({
   name: z.string().min(1, "Name is required."),
@@ -106,22 +106,43 @@ export function SignUpForm() {
         <CardContent>
           <div>
             <Field>
-              <LoadingButton
-                loading={loadingProvider === "google"}
-                disabled={loadingProvider !== null}
-                loadingLabel="Redirecting to google..."
-                label="Continue with Google"
-                logo={"/google.png"}
+              <Button
+                variant={"outline"}
+                disabled={loadingProvider === "google"}
                 onClick={() => handleSocial("google")}
-              />
-              <LoadingButton
-                loading={loadingProvider === "github"}
-                disabled={loadingProvider !== null}
-                loadingLabel="Redirecting to github..."
-                label="Continue with github"
-                logo={"/github.png"}
+                className="w-full gap-2"
+              >
+                {loadingProvider === "google" ? (
+                  <Spinner />
+                ) : (
+                  <Image
+                    src={"/google.png"}
+                    alt="logo"
+                    width={18}
+                    height={18}
+                  />
+                )}
+                Continue with Google
+              </Button>
+              <Button
+                variant={"outline"}
+                disabled={loadingProvider === "github"}
                 onClick={() => handleSocial("github")}
-              />
+                className="w-full gap-2"
+              >
+                {loadingProvider === "github" ? (
+                  <Spinner />
+                ) : (
+                  <Image
+                    className="dark:invert"
+                    src={"/github.png"}
+                    alt="logo"
+                    width={18}
+                    height={18}
+                  />
+                )}
+                Continue with github
+              </Button>
             </Field>
           </div>
           <form
