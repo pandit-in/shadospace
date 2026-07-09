@@ -1,4 +1,7 @@
+import { AppSidebar } from "@/components/app-sidebar"
 import { Header } from "@/components/layout/header"
+import { RightSidebar } from "@/components/right-sidebar"
+import { SidebarProvider } from "@/components/ui/sidebar"
 import React from "react"
 
 export default function MainLayout({
@@ -9,7 +12,11 @@ export default function MainLayout({
   return (
     <div>
       <Header />
-      <div className="mx-auto max-w-5xl p-3">{children}</div>
+      <SidebarProvider>
+        <AppSidebar />
+        <div className="w-full">{children}</div>
+        <RightSidebar />
+      </SidebarProvider>
     </div>
   )
 }

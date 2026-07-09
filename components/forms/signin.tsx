@@ -9,7 +9,6 @@ import * as z from "zod"
 import { Button } from "@/components/ui/button"
 import {
   Field,
-  FieldDescription,
   FieldError,
   FieldGroup,
   FieldLabel,
@@ -25,11 +24,12 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card"
-import { Checkbox } from "../ui/checkbox"
 import { authClient } from "@/lib/auth-client"
 
 import { FcGoogle } from "react-icons/fc"
 import { FaGithub } from "react-icons/fa"
+import { Spinner } from "../ui/spinner"
+import { redirect } from "next/navigation"
 
 const formSchema = z.object({
   email: z.email("Invalid email address."),
@@ -45,6 +45,7 @@ export function SignInForm() {
     },
   })
 
+  const [loading, setLoading] = React.useState(false)
   const [loadingProvider, setLoadingProvider] = React.useState<
     "google" | "github" | null
   >(null)
@@ -59,28 +60,32 @@ export function SignInForm() {
       if (error) {
         toast.error(error.message)
       }
-    } catch (e: any) {
-      toast.error(e?.message || "An error occurred during sign in")
+    } catch (error) {
+      toast.error(getErrorMessage(error, "An error occurred during sign in"))
     } finally {
       setLoadingProvider(null)
     }
   }
 
-  function onSubmit(data: z.infer<typeof formSchema>) {
-    toast("You submitted the following values:", {
-      description: (
-        <pre className="bg-code text-code-foreground mt-2 w-[320px] overflow-x-auto rounded-md p-4">
-          <code>{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-      position: "bottom-right",
-      classNames: {
-        content: "flex flex-col gap-2",
-      },
-      style: {
-        "--border-radius": "calc(var(--radius)  + 4px)",
-      } as React.CSSProperties,
-    })
+  async function onSubmit(data: z.infer<typeof formSchema>) {
+    setLoading(true)
+    try {
+      const { error } = await authClient.signIn.email({
+        email: data.email,
+        password: data.password,
+        callbackURL: "/",
+      })
+      if (error) {
+        toast.error(error.message)
+      } else {
+        toast.success("Logged in successfully")
+        redirect("/")
+      }
+    } catch {
+      toast.error("An error occurred during sign in")
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -102,6 +107,7 @@ export function SignInForm() {
           <div>
             <Field>
               <Button
+                variant={"outline"}
                 disabled={loadingProvider === "google"}
                 onClick={() => handleSocial("google")}
                 className="w-full gap-2"
@@ -110,6 +116,7 @@ export function SignInForm() {
                 Continue with Google
               </Button>
               <Button
+                variant={"outline"}
                 disabled={loadingProvider === "github"}
                 onClick={() => handleSocial("github")}
                 className="w-full gap-2"
@@ -173,24 +180,23 @@ export function SignInForm() {
                   </Field>
                 )}
               />
-              <Field>
-                <FieldDescription className="flex items-center gap-2">
-                  <Checkbox />
-                  Keep me signed in
-                </FieldDescription>
-              </Field>
             </FieldGroup>
           </form>
         </CardContent>
         <CardFooter>
-          <Button className="w-full" type="submit" form="form-signin">
-            Sign In
+          <Button
+            disabled={loading}
+            className="w-full"
+            type="submit"
+            form="form-signin"
+          >
+            {loading ? <Spinner /> : "Sign In"}
           </Button>
         </CardFooter>
       </Card>
       <div className="mt-6">
         <p className="mt-4 text-center text-sm text-muted-foreground">
-          Don't have an account?{" "}
+          Don&apos;t have an account?{" "}
           <Link className="text-red-400" href="/signup">
             Sign Up
           </Link>
@@ -198,4 +204,8 @@ export function SignInForm() {
       </div>
     </div>
   )
+}
+
+function getErrorMessage(error: unknown, fallback: string) {
+  return error instanceof Error ? error.message : fallback
 }

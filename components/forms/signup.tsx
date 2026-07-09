@@ -30,6 +30,7 @@ import { Spinner } from "../ui/spinner"
 
 import { FcGoogle } from "react-icons/fc"
 import { FaGithub } from "react-icons/fa"
+import { redirect } from "next/navigation"
 
 const formSchema = z.object({
   name: z.string().min(1, "Name is required."),
@@ -51,6 +52,8 @@ export function SignUpForm() {
     "google" | "github" | null
   >(null)
 
+  const [loading, setLoading] = React.useState(false)
+
   async function handleSocial(provider: "google" | "github") {
     setLoadingProvider(provider)
     try {
@@ -61,28 +64,33 @@ export function SignUpForm() {
       if (error) {
         toast.error(error.message)
       }
-    } catch (e: any) {
-      toast.error(e?.message || "An error occurred during sign in")
+    } catch (error) {
+      toast.error(getErrorMessage(error, "An error occurred during sign in"))
     } finally {
       setLoadingProvider(null)
     }
   }
 
-  function onSubmit(data: z.infer<typeof formSchema>) {
-    toast("You submitted the following values:", {
-      description: (
-        <pre className="bg-code text-code-foreground mt-2 w-[320px] overflow-x-auto rounded-md p-4">
-          <code>{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-      position: "bottom-right",
-      classNames: {
-        content: "flex flex-col gap-2",
-      },
-      style: {
-        "--border-radius": "calc(var(--radius)  + 4px)",
-      } as React.CSSProperties,
-    })
+  async function onSubmit(data: z.infer<typeof formSchema>) {
+    setLoading(true)
+    try {
+      const { error } = await authClient.signUp.email({
+        name: data.name,
+        email: data.email,
+        password: data.password,
+        callbackURL: "/",
+      })
+      if (error) {
+        toast.error(error.message)
+      } else {
+        toast.success("Account created successfully")
+        redirect("/")
+      }
+    } catch {
+      toast.error("An error occurred during sign up")
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -189,16 +197,33 @@ export function SignUpForm() {
               <Field>
                 <FieldDescription>
                   By creating an account, you agree to our{" "}
-                  <Link href="/terms">Terms of Service</Link> and{" "}
-                  <Link href="/privacy">Privacy Policy</Link>
+                  <Link
+                    href="/legal/terms"
+                    className="font-medium text-foreground underline underline-offset-4"
+                  >
+                    Terms of Service
+                  </Link>{" "}
+                  and{" "}
+                  <Link
+                    href="/legal/privacy"
+                    className="font-medium text-foreground underline underline-offset-4"
+                  >
+                    Privacy Policy
+                  </Link>
+                  .
                 </FieldDescription>
               </Field>
             </FieldGroup>
           </form>
         </CardContent>
         <CardFooter>
-          <Button className="w-full" type="submit" form="form-signup">
-            Create account
+          <Button
+            disabled={loading}
+            className="w-full"
+            type="submit"
+            form="form-signup"
+          >
+            {loading ? <Spinner /> : "Sign Up"}
           </Button>
         </CardFooter>
       </Card>
@@ -212,4 +237,8 @@ export function SignUpForm() {
       </div>
     </div>
   )
+}
+
+function getErrorMessage(error: unknown, fallback: string) {
+  return error instanceof Error ? error.message : fallback
 }

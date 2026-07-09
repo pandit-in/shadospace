@@ -1,18 +1,26 @@
 import { Button } from "@/components/ui/button"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import { getAllPosts } from "@/server/post"
 
-export default function Page() {
+export default async function Page() {
+  const posts = await getAllPosts()
   return (
-    <div>
-      <div className="flex max-w-md min-w-0 flex-col gap-4 text-sm leading-loose">
-        <div>
-          <h1 className="font-medium">Hello from Shadospace!</h1>
-          <p>You may now add components and start building.</p>
-          <p>We&apos;ve already added the button component for you.</p>
-          <Button className="mt-2">Button</Button>
-        </div>
-        <div className="font-mono text-xs text-muted-foreground">
-          (Press <kbd>d</kbd> to toggle dark mode)
-        </div>
+    <div className="mx-auto max-w-2xl p-4">
+      <div className="mt-10 flex w-full flex-col gap-4">
+        {posts.map((post) => (
+          <Card key={post.id}>
+            <CardContent>
+              <p>{post.title}</p>
+              <p>{post.content}</p>
+            </CardContent>
+          </Card>
+        ))}
       </div>
     </div>
   )
