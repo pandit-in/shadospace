@@ -2,6 +2,8 @@ import { Geist, Geist_Mono } from "next/font/google"
 
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
+import { Analytics } from "@vercel/analytics/next"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import { cn } from "@/lib/utils"
 import { Metadata } from "next"
 import { TooltipProvider } from "@/components/ui/tooltip"
@@ -40,6 +42,8 @@ export default function RootLayout({
           <TooltipProvider>
             <main>{children}</main>
             <Toaster richColors />
+            <Analytics/>
+            <SpeedInsights/>
           </TooltipProvider>
         </ThemeProvider>
       </body>
