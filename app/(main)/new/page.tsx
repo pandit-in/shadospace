@@ -32,16 +32,14 @@ import {
 import { createPost } from "@/server/post"
 import { authClient } from "@/lib/auth-client"
 import { redirect, useRouter } from "next/navigation"
+import Editor from "@/components/editor"
 
 const formSchema = z.object({
   title: z
     .string()
     .min(5, "Post title must be at least 5 characters.")
-    .max(32, "Post title must be at most 32 characters."),
-  content: z
-    .string()
-    .min(20, "Post content must be at least 20 characters.")
-    .max(100, "Post content must be at most 100 characters."),
+    .max(255, "Post title must be at most 32 characters."),
+  content: z.string(),
 })
 
 export default function Page() {
@@ -98,22 +96,9 @@ export default function Page() {
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
                   <FieldLabel htmlFor="create-post-content">Content</FieldLabel>
-                  <InputGroup>
-                    <InputGroupTextarea
-                      {...field}
-                      id="create-post-content"
-                      placeholder="Write your post here..."
-                      rows={15}
-                      className="min-h-24 resize-none"
-                      aria-invalid={fieldState.invalid}
-                    />
-                    <InputGroupAddon align="block-end">
-                      <InputGroupText className="tabular-nums">
-                        {field.value.length}/100 characters
-                      </InputGroupText>
-                    </InputGroupAddon>
-                  </InputGroup>
-
+                  <div>
+                    <Editor content={field.value} onChange={field.onChange} />
+                  </div>
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
                   )}

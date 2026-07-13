@@ -73,9 +73,7 @@ export function Header() {
                   </Avatar>
                 </div>
               ) : (
-                <Link href={"/signup"}>
-                  <Button>Get Started</Button>
-                </Link>
+                <Button nativeButton={false} render={<Link href={"/signup"} />} >Get Started</Button>
               )}
             </DropdownMenuTrigger>
             <DropdownMenuContent>
