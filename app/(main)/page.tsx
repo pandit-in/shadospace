@@ -7,15 +7,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { auth } from "@/lib/auth"
 import { getAllPosts } from "@/server/post"
-import { headers } from "next/headers"
 import Link from "next/link"
 
 export default async function Page() {
-  const session = await auth.api.getSession({
-    headers: await headers() 
-  })
   const data = await getAllPosts()
   return (
     <div>
@@ -30,8 +25,8 @@ export default async function Page() {
             <CardHeader className="flex items-center gap-2 w-full">
               <Link href={`/profile/${user.id}`} className="flex items-center gap-2 w-full">
                 <Avatar className={"size-6"}>
-                  <AvatarImage src={session?.user.image!} />
-                  <AvatarFallback>{session?.user.name[0]}</AvatarFallback>
+                  <AvatarImage src={user.image ?? undefined} />
+                  <AvatarFallback>{user.name?.[0] ?? ""}</AvatarFallback>
                 </Avatar>
                 <p className="text-sm">{user.name}</p>
                 <p className="text-xs text-muted-foregroun">{post.createdAt.toLocaleDateString()}</p>
