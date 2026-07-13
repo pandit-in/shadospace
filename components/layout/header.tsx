@@ -22,7 +22,7 @@ import {
   InputGroupInput,
 } from "@/components/ui/input-group"
 import { toast } from "sonner"
-import { PlusIcon, SearchIcon } from "lucide-react"
+import { PlusIcon, SearchIcon, UserIcon } from "lucide-react"
 
 export function Header() {
   const { data: session, isPending } = authClient.useSession()
@@ -33,17 +33,16 @@ export function Header() {
           <Image src={"/logo.png"} alt="logo" width={28} height={28} />
           <h1 className="text-xl font-medium">Shadospace</h1>
         </Link>
-
-        <div className="flex items-center gap-4">
-          <InputGroup>
+    <div className="w-2xl mx-auto">
+        <InputGroup>
             <InputGroupInput id="inline-start-input" placeholder="Search..." />
             <InputGroupAddon align="inline-start">
               <SearchIcon className="text-muted-foreground" />
             </InputGroupAddon>
-            <InputGroupAddon align="inline-end">
-              <InputGroupButton variant={"default"}>Search</InputGroupButton>
-            </InputGroupAddon>
           </InputGroup>
+          </div>
+        <div className="flex items-center gap-4">
+          
           <div className="flex items-center gap-2">
             <Button
               nativeButton={false}
@@ -76,9 +75,15 @@ export function Header() {
                 <Button nativeButton={false} render={<Link href={"/signup"} />} >Get Started</Button>
               )}
             </DropdownMenuTrigger>
-            <DropdownMenuContent>
+            <DropdownMenuContent className="w-44">
               <DropdownMenuGroup>
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuLabel className="flex items-center gap-2">
+                  <div>
+                  <p className="text-sm font-medium">{session?.user?.name}</p>
+                  <p className="text-xs text-muted-foreground">{session?.user?.email}</p>
+                  </div>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator/>
                 <DropdownMenuItem
                   render={<Link className="hover:underline" href={"/new"} />}
                 >

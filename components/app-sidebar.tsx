@@ -1,3 +1,5 @@
+"use client"
+
 import {
   Sidebar,
   SidebarContent,
@@ -9,38 +11,40 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { Button } from "./ui/button"
+
 import Link from "next/link"
-import Image from "next/image"
+
 import { Book, Code2, Home, Sparkles } from "lucide-react"
+import { usePathname } from "next/navigation"
 
 export function AppSidebar() {
+  const pathname = usePathname()
   return (
-    <Sidebar className="mt-14">
+    <Sidebar className="mt-14" collapsible="icon">
       <SidebarHeader>
         <SidebarGroup>
           <SidebarGroupContent>
-            <SidebarMenu>
+            <SidebarMenu className="gap-1">
               <SidebarMenuItem>
-                <SidebarMenuButton>
+                <SidebarMenuButton isActive={pathname === "/"} render={<Link href={"/"} />}>
                   <Home />
                   Home
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton>
+                <SidebarMenuButton isActive={pathname === "/threads"} render={<Link href={"/threads"} />}>
                   <Sparkles />
                   Threads
-                </SidebarMenuButton>
+                </SidebarMenuButton >
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton>
+                <SidebarMenuButton  isActive={pathname === "/articles"} render={<Link href={"/articles"} />}>
                   <Book />
                   Articles
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton>
+                <SidebarMenuButton  isActive={pathname === "/projects"} render={<Link href={"/projects"} />}>
                   <Code2 />
                   Projects
                 </SidebarMenuButton>

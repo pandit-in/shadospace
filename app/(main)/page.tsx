@@ -1,3 +1,4 @@
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -6,27 +7,42 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import { auth } from "@/lib/auth"
 import { getAllPosts } from "@/server/post"
+import { headers } from "next/headers"
 import Link from "next/link"
 
 export default async function Page() {
-  const posts = await getAllPosts()
+  const session = await auth.api.getSession({
+    headers: await headers() 
+  })
+  const data = await getAllPosts()
   return (
-    <div className="mx-auto max-w-2xl p-4">
-      <div className="mt-10 flex w-full flex-col gap-4">
-        {posts.map((post) => (
-
+    <div>
+      <div className="pt-10 max-w-3xl mx-auto flex w-full flex-col gap-4">
+        <div className="flex items-center gap-2">
+          <Button variant={"outline"}>Discover</Button>
+          <Button variant={"outline"}>Following</Button>
+          <Button variant={"outline"}>Latest</Button>
+        </div>
+        {data.map(({post, user}) => (
           <Card key={post.id}>
-            <CardHeader>
-              <Link href={`/post/${post.id}`}>
-                <CardTitle>{post.title}</CardTitle>
+            <CardHeader className="flex items-center gap-2 w-full">
+              <Link href={`/profile/${user.id}`} className="flex items-center gap-2 w-full">
+                <Avatar className={"size-6"}>
+                  <AvatarImage src={session?.user.image!} />
+                  <AvatarFallback>{session?.user.name[0]}</AvatarFallback>
+                </Avatar>
+                <p className="text-sm">{user.name}</p>
+                <p className="text-xs text-muted-foregroun">{post.createdAt.toLocaleDateString()}</p>
               </Link>
             </CardHeader>
             <CardContent>
-              <div
-                dangerouslySetInnerHTML={{ __html: post.content }}
-                className="text-muted-foreground text-sm space-y-2 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_h1]:text-2xl [&_h2]:text-xl [&_h3]:text-lg [&_blockquote]:border-l-4 [&_blockquote]:border-border [&_blockquote]:pl-4 [&_blockquote]:italic [&_pre]:bg-muted [&_pre]:p-3 [&_pre]:rounded-lg [&_pre]:font-mono [&_pre]:text-xs [&_code]:bg-muted [&_code]:px-1 [&_code]:py-0.5 [&_code]:rounded [&_code]:font-mono"
-              />
+            <Link href={`/post/${post.id}`} className="flex items-center gap-2 w-full">
+            <CardTitle className="hover:underline">
+            {post.title}
+            </CardTitle>
+            </Link>
             </CardContent>
           </Card>
         ))}

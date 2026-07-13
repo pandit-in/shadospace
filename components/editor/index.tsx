@@ -8,7 +8,7 @@ export default ({ content, onChange }: { content: string | null; onChange?: (val
   const editor = useEditor({
     editorProps: {
       attributes: {
-        class: 'min-h-[150px] p-4 outline-none focus:outline-none',
+        class: 'min-h-[150px] p-4 prose dark:invert outline-none focus:outline-none',
       },
     },
     extensions,

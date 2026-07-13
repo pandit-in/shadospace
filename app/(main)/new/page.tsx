@@ -23,12 +23,6 @@ import {
   FieldLabel,
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupText,
-  InputGroupTextarea,
-} from "@/components/ui/input-group"
 import { createPost } from "@/server/post"
 import { authClient } from "@/lib/auth-client"
 import { redirect, useRouter } from "next/navigation"
@@ -64,7 +58,7 @@ export default function Page() {
   }
 
   return (
-    <div className="mx-auto mt-10 w-full p-4 sm:max-w-2xl">
+    <div className="mx-auto mt-10 w-full p-4 max-w-3xl">
       <div>
         <h1 className="text-2xl font-semibold">Create post</h1>
       </div>

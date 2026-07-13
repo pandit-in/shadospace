@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+@plugin "@tailwindcss/typography";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -153,7 +154,7 @@
     --chart-3: oklch(0.5600 0 0);
     --chart-4: oklch(0.4400 0 0);
     --chart-5: oklch(0.9200 0 0);
-    --sidebar: oklch(0.1800 0 0);
+    --sidebar: oklch(0.145 0 0);
     --sidebar-foreground: oklch(1 0 0);
     --sidebar-primary: oklch(1 0 0);
     --sidebar-primary-foreground: oklch(0 0 0);
@@ -198,115 +199,4 @@
   html {
     @apply font-mono;
     }
-}
-
-/* Tiptap Editor Formatting Styles */
-.tiptap {
-    outline: none;
-    min-height: 150px;
-    padding: 1rem;
-}
-
-.tiptap p {
-    margin-bottom: 0.75rem;
-    line-height: 1.625;
-}
-
-.tiptap strong {
-    font-weight: 700;
-}
-
-.tiptap em {
-    font-style: italic;
-}
-
-.tiptap s {
-    text-decoration: line-through;
-}
-
-.tiptap h1 {
-    font-size: 1.875rem; /* 30px */
-    font-weight: 700;
-    margin-top: 1.5rem;
-    margin-bottom: 0.75rem;
-    line-height: 1.25;
-}
-
-.tiptap h2 {
-    font-size: 1.5rem; /* 24px */
-    font-weight: 600;
-    margin-top: 1.25rem;
-    margin-bottom: 0.75rem;
-    line-height: 1.25;
-}
-
-.tiptap h3 {
-    font-size: 1.25rem; /* 20px */
-    font-weight: 600;
-    margin-top: 1rem;
-    margin-bottom: 0.5rem;
-    line-height: 1.25;
-}
-
-.tiptap h4 {
-    font-size: 1.125rem;
-    font-weight: 600;
-    margin-top: 1rem;
-    margin-bottom: 0.5rem;
-}
-
-.tiptap h5 {
-    font-size: 1rem;
-    font-weight: 600;
-    margin-top: 1rem;
-    margin-bottom: 0.5rem;
-}
-
-.tiptap h6 {
-    font-size: 0.875rem;
-    font-weight: 600;
-    margin-top: 1rem;
-    margin-bottom: 0.5rem;
-}
-
-.tiptap ul {
-    list-style-type: disc;
-    padding-left: 1.25rem;
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
-}
-
-.tiptap ol {
-    list-style-type: decimal;
-    padding-left: 1.25rem;
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
-}
-
-.tiptap blockquote {
-    border-left: 4px solid var(--border);
-    padding-left: 1rem;
-    font-style: italic;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    color: var(--muted-foreground);
-}
-
-.tiptap pre {
-    background-color: var(--muted);
-    padding: 0.75rem;
-    border-radius: 0.5rem;
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    overflow-x: auto;
-}
-
-.tiptap code {
-    background-color: var(--muted);
-    padding: 0.125rem 0.25rem;
-    border-radius: 0.25rem;
-    font-family: var(--font-mono);
-    font-size: 0.875rem;
 }
