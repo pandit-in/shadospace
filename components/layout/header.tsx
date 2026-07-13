@@ -33,7 +33,7 @@ export function Header() {
           <Image src={"/logo.png"} alt="logo" width={28} height={28} />
           <h1 className="text-xl font-medium">Shadospace</h1>
         </Link>
-    <div className="w-2xl mx-auto">
+    <div className="w-4xl mx-auto">
         <InputGroup>
             <InputGroupInput id="inline-start-input" placeholder="Search..." />
             <InputGroupAddon align="inline-start">

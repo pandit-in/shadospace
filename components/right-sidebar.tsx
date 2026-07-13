@@ -15,7 +15,7 @@ import Link from "next/link"
 
 export function RightSidebar() {
   return (
-    <Sidebar side="right" collapsible="icon" variant="floating" className="mt-18 w-68 mr-4">
+    <Sidebar side="right" collapsible="icon" variant="floating" className="w-68 mr-4 mt-18 pb-10">
       <SidebarHeader>
         <SidebarGroup>
           <SidebarGroupContent>
