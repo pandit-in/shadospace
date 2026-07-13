@@ -16,6 +16,10 @@ export async function createPost(title: string, content: string, userId: string)
     revalidatePath("/");
 }
 
+export async function getPostById(id: string) {
+    return await db.select().from(post).where(eq(post.id, id));
+}
+
 export async function deletePost(id: string) {
     await db.delete(post).where(eq(post.id, id));
     revalidatePath("/");
