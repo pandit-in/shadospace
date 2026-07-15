@@ -21,7 +21,7 @@ export function Header() {
   const { data: session, isPending } = authClient.useSession()
   return (
     <header className="sticky top-0 right-0 left-0 z-50 w-full border-b bg-background/95 backdrop-blur-sm">
-      <div className="flex items-center justify-between py-3 px-4 max-w-2xl mx-auto">
+      <div className="flex items-center justify-between p-4 max-w-2xl mx-auto">
         <Link href={"/"} className="flex items-center gap-2">
           <Image src={"/logo.png"} alt="logo" width={25} height={25} />
           <h1 className="text-xl font-medium">shadospace</h1>
@@ -39,7 +39,7 @@ export function Header() {
           {
             session?.user ? (
               <div className="flex items-center gap-2">
-                <Button variant={"outline"} size={"sm"} nativeButton={true} render={<Link href={"/new"}  className={"hover:underline"} />}>Create</Button>
+                <Button variant={"outline"} size={"sm"} nativeButton={false} render={<Link href={"/new"}  className={"hover:underline"} />}>Create</Button>
               <DropdownMenu>
               <DropdownMenuTrigger>
                 {isPending ? (
