@@ -14,11 +14,7 @@ export default async function Page() {
   return (
     <div>
       <div className="mt-6 max-w-2xl mx-auto flex w-full flex-col p-3 md:p-4 gap-4">
-        <div className="flex items-center gap-2">
-          <Button variant={"outline"}>Discover</Button>
-          <Button variant={"outline"}>Following</Button>
-          <Button variant={"outline"}>Latest</Button>
-        </div>
+       
         {data.map(({post, user}) => (
           <Card key={post.id}>
             <CardHeader className="flex items-center gap-2 w-full">

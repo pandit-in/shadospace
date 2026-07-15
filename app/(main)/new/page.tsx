@@ -5,19 +5,12 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Controller, useForm } from "react-hook-form"
 import { toast } from "sonner"
 import * as z from "zod"
+import type { PutBlobResult } from '@vercel/blob';
+import { useState, useRef } from 'react';
 
 import { Button } from "@/components/ui/button"
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import {
   Field,
-  FieldDescription,
   FieldError,
   FieldGroup,
   FieldLabel,
@@ -25,7 +18,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { createPost } from "@/server/post"
 import { authClient } from "@/lib/auth-client"
-import { redirect, useRouter } from "next/navigation"
+import { useRouter } from "next/navigation"
 import Editor from "@/components/editor"
 
 const formSchema = z.object({
@@ -34,9 +27,12 @@ const formSchema = z.object({
     .min(5, "Post title must be at least 5 characters.")
     .max(255, "Post title must be at most 32 characters."),
   content: z.string(),
+  thumbnail: z.url("Enter a valid image url")
 })
 
 export default function Page() {
+  const inputFileRef = useRef<HTMLInputElement>(null);
+  const [blob, setBlob] = useState<PutBlobResult | null>(null);
   const router = useRouter()
   const { data: session, isPending } = authClient.useSession()
   const form = useForm<z.infer<typeof formSchema>>({
@@ -44,6 +40,7 @@ export default function Page() {
     defaultValues: {
       title: "",
       content: "",
+      thumbnail: ""
     },
   })
 
@@ -62,6 +59,29 @@ export default function Page() {
       <div className="mt-6">
         <form id="create-post-form" onSubmit={form.handleSubmit(onSubmit)}>
           <FieldGroup>
+          <Controller
+              name="thumbnail"
+              control={form.control}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor="create-post-form">Post Thumbnail</FieldLabel>
+                  <div>
+                  <Input
+                    {...field}
+                    id="create-post-form"
+                    type="file"
+                    ref={inputFileRef}
+                    accept="image/jpeg, image/png, image/webp"
+                    aria-invalid={fieldState.invalid}
+                  />
+                  <Button>Upload</Button>
+                  </div>
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
+              )}
+            />
             <Controller
               name="title"
               control={form.control}
