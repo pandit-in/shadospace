@@ -13,7 +13,7 @@ export default async function Page() {
   const data = await getAllPosts()
   return (
     <div>
-      <div className="pt-6 max-w-2xl mx-auto flex w-full flex-col p-4 gap-4">
+      <div className="mt-6 max-w-2xl mx-auto flex w-full flex-col p-4 sm:p-2 gap-4">
         <div className="flex items-center gap-2">
           <Button variant={"outline"}>Discover</Button>
           <Button variant={"outline"}>Following</Button>
