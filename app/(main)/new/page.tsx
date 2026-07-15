@@ -58,10 +58,10 @@ export default function Page() {
   }
 
   return (
-    <div className="mx-auto mt-10 w-full p-4 max-w-3xl">
-      <div>
+    <div className="mx-auto mt-10 w-full max-w-3xl">
+      {/* <div>
         <h1 className="text-2xl font-semibold">Create post</h1>
-      </div>
+      </div> */}
       <div className="mt-6">
         <form id="create-post-form" onSubmit={form.handleSubmit(onSubmit)}>
           <FieldGroup>

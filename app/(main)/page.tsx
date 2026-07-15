@@ -34,7 +34,7 @@ export default async function Page() {
             </CardHeader>
             <CardContent>
             <Link href={`/post/${post.id}`} className="flex items-center gap-2 w-full">
-            <CardTitle className="hover:underline">
+            <CardTitle className="hover:underline font-mono">
             {post.title}
             </CardTitle>
             </Link>

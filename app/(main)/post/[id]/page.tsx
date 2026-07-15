@@ -11,9 +11,9 @@ export default async function page(
         return <h1>Post not found</h1>
     }
     return (
-        <div className="mx-auto max-w-3xl mt-6 p-4">
+        <div className="mx-auto max-w-3xl mt-10">
             <h1 className="text-3xl font-bold tracking-tight">{post.title}</h1>
-            <div className="mt-10">
+            <div className="mt-4">
             <Reader content={post.content} />
             </div>
         </div>

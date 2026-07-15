@@ -13,9 +13,9 @@ export default function MainLayout({
     <div>
       <Header />
       <SidebarProvider>
-        <AppSidebar />
+        {/* <AppSidebar /> */}
         <div className="w-full">{children}</div>
-        <RightSidebar />
+        {/* <RightSidebar /> */}
       </SidebarProvider>
     </div>
   )
