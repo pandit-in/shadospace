@@ -19,7 +19,12 @@ export async function createPost(title: string, content: string, userId: string)
 }
 
 export async function getPostById(id: string) {
-    const result = await db.select().from(post).where(eq(post.id, id)).limit(1);
+    const result = await db
+        .select()
+        .from(post)
+        .innerJoin(user, eq(user.id, post.userId))
+        .where(eq(post.id, id))
+        .limit(1);
     return result[0];
 }
 
