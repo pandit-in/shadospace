@@ -15,23 +15,16 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupButton,
-  InputGroupInput,
-} from "@/components/ui/input-group"
 import { toast } from "sonner"
-import { PlusIcon, SearchIcon, UserIcon } from "lucide-react"
 
 export function Header() {
   const { data: session, isPending } = authClient.useSession()
   return (
     <header className="sticky top-0 right-0 left-0 z-50 w-full border-b bg-background/95 backdrop-blur-sm">
-      <div className="flex items-center justify-between py-3 max-w-3xl mx-auto">
+      <div className="flex items-center justify-between py-3 px-4 max-w-2xl mx-auto">
         <Link href={"/"} className="flex items-center gap-2">
-          <Image src={"/logo.png"} alt="logo" width={28} height={28} />
-          <h1 className="text-xl font-medium">Shadospace</h1>
+          <Image src={"/logo.png"} alt="logo" width={25} height={25} />
+          <h1 className="text-xl font-medium">shadospace</h1>
         </Link>
     {/* <div className="max-w-md mx-auto">
         <InputGroup>
@@ -46,18 +39,18 @@ export function Header() {
           {
             session?.user ? (
               <div className="flex items-center gap-2">
-                <Button render={<Link href={"/new"}  className={"hover:underline"} />}>Create</Button>
+                <Button variant={"outline"} size={"sm"} nativeButton={true} render={<Link href={"/new"}  className={"hover:underline"} />}>Create</Button>
               <DropdownMenu>
               <DropdownMenuTrigger>
                 {isPending ? (
-                  <Skeleton className="h-8 w-8 animate-pulse rounded-full" />
+                  <Skeleton className="h-7 w-7 animate-pulse rounded-full" />
                 ) : session?.user && (
                   <div className="flex items-center gap-2">
-                    <Avatar className="size-8">
+                    <Avatar className="size-7">
                       <AvatarImage
                         src={
                           session.user.image ||
-                          `https://ui-avatars.com/api/?name=${session.user.name}&size=32`
+                          `https://ui-avatars.com/api/?name=${session.user.name}&size=24`
                         }
                       />
                       <AvatarFallback>
