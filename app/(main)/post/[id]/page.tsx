@@ -1,6 +1,7 @@
 import Reader from "@/components/reader"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { getPostById } from "@/server/post"
+import { Metadata, ResolvingMetadata } from "next"
 import Link from "next/link"
 
 export default async function page(
@@ -34,3 +35,23 @@ export default async function page(
         </div>
     )
 }
+
+type Props = {
+    params: Promise<{ id: string }>
+  }
+   
+  export async function generateMetadata(
+    { params }: Props,
+    parent: ResolvingMetadata
+  ): Promise<Metadata> {
+    const { id } = await params
+    const post = await getPostById(id)
+    return {
+      title: post.post.title,
+      description: post.post.content.slice(0, 40),
+      authors: [{
+        name: post.user.name,
+        url:post.user.email
+      }]
+    }
+  }
