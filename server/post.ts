@@ -7,11 +7,12 @@ import { randomUUID } from "node:crypto";
 import { revalidatePath } from "next/cache";
 import { user } from "@/db/schema";
 
-export async function createPost(title: string, content: string, userId: string) {
+export async function createPost(title: string, content: string, thumbnail: string, userId: string) {
     await db.insert(post).values({
         id: randomUUID(),
         title,
         content,
+        thumbnail,
         userId,
     });
     revalidatePath("/");
