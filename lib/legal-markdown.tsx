@@ -25,7 +25,7 @@ interface ParsedLegalMarkdown {
 const inlineTokenPattern = /(https?:\/\/[^\s]+|[\w.+-]+@[\w.-]+\.[A-Za-z]{2,})/g
 
 export const getLegalMarkdown = cache(async (slug: LegalDocumentSlug) => {
-  const filePath = path.join(process.cwd(), legalMarkdownFiles[slug])
+  const filePath = path.join(process.cwd(), "public", "legal", legalMarkdownFiles[slug])
 
   return readFile(filePath, "utf8")
 })

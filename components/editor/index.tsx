@@ -4,13 +4,13 @@ import { MenuBar } from "./menu-bar"
 
 const extensions = [StarterKit]
 
-export default ({
+export default function Editor({
   content,
   onChange,
 }: {
   content: string | null
   onChange?: (value: string) => void
-}) => {
+}) {
   const editor = useEditor({
     editorProps: {
       attributes: {
