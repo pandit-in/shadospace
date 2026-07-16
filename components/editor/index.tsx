@@ -1,14 +1,21 @@
-import { EditorContent, useEditor } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
-import { MenuBar } from './menu-bar'
+import { EditorContent, useEditor } from "@tiptap/react"
+import StarterKit from "@tiptap/starter-kit"
+import { MenuBar } from "./menu-bar"
 
 const extensions = [StarterKit]
 
-export default ({ content, onChange }: { content: string | null; onChange?: (value: string) => void }) => {
+export default ({
+  content,
+  onChange,
+}: {
+  content: string | null
+  onChange?: (value: string) => void
+}) => {
   const editor = useEditor({
     editorProps: {
       attributes: {
-        class: 'min-h-[150px] p-4 prose dark:invert outline-none focus:outline-none',
+        class:
+          "min-h-[150px] p-4 prose dark:prose-invert outline-none focus:outline-none",
       },
     },
     extensions,
@@ -26,7 +33,7 @@ export default ({ content, onChange }: { content: string | null; onChange?: (val
   return (
     <>
       <MenuBar editor={editor} />
-      <div className="border rounded-lg border-input bg-card rounded-t-none">
+      <div className="rounded-lg rounded-t-none border border-input bg-card">
         <EditorContent editor={editor} />
       </div>
     </>

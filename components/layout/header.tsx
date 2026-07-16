@@ -16,6 +16,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { toast } from "sonner"
+import { InputGroup, InputGroupAddon, InputGroupInput } from "../ui/input-group"
+import { SearchIcon } from "lucide-react"
 
 export function Header() {
   const { data: session, isPending } = authClient.useSession()
@@ -24,17 +26,21 @@ export function Header() {
       <div className="mx-auto flex max-w-2xl items-center justify-between p-4">
         <Link href={"/"} className="flex items-center gap-2">
           <Image src={"/logo.png"} alt="logo" width={28} height={28} />
-          <h1 className="text-xl font-medium">shadospace</h1>
+          <h1 className="text-xl font-semibold">Shadospace</h1>
         </Link>
-        {/* <div className="max-w-md mx-auto">
-        <InputGroup>
-            <InputGroupInput id="inline-start-input" placeholder="Search..." />
-            <InputGroupAddon align="inline-start">
-              <SearchIcon className="text-muted-foreground" />
-            </InputGroupAddon>
-          </InputGroup>
-          </div> */}
+
         <div className="flex items-center gap-2">
+          <div className="mx-auto hidden max-w-md md:block">
+            <InputGroup>
+              <InputGroupInput
+                id="inline-start-input"
+                placeholder="Search..."
+              />
+              <InputGroupAddon align="inline-start">
+                <SearchIcon className="text-muted-foreground" />
+              </InputGroupAddon>
+            </InputGroup>
+          </div>
           {session?.user ? (
             <div className="flex items-center gap-2">
               <Button

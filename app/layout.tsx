@@ -1,4 +1,4 @@
-import { Geist, Geist_Mono } from "next/font/google"
+import { Geist, Geist_Mono, Inter } from "next/font/google"
 
 import "./globals.css"
 import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin"
@@ -12,7 +12,7 @@ import { Metadata } from "next"
 import { TooltipProvider } from "@/components/ui/tooltip"
 import { Toaster } from "@/components/ui/sonner"
 
-const geist = Geist({ subsets: ["latin"], variable: "--font-sans" })
+const geist = Geist({subsets:['latin'],variable:'--font-sans'})
 
 const fontMono = Geist_Mono({
   subsets: ["latin"],
@@ -34,11 +34,9 @@ export default function RootLayout({
       lang="en"
       suppressHydrationWarning
       className={cn(
-        "antialiased",
-        fontMono.variable,
-        "font-mono",
-        geist.variable
-      )}
+              "antialiased",
+              fontMono.variable
+            , "font-sans", geist.variable)}
     >
       <body>
         <ThemeProvider>

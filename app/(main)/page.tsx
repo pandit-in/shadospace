@@ -3,13 +3,10 @@ import { Button } from "@/components/ui/button"
 import { getAllPosts } from "@/server/post"
 import {
   ArrowBigDown,
-  ArrowBigDownDash,
   ArrowBigUp,
-  ArrowBigUpDash,
   Bookmark,
   Repeat2,
   Share,
-  ThumbsUp,
 } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
@@ -24,7 +21,7 @@ export default async function Page() {
             key={post.id}
             className="flex flex-col gap-2 border-b pb-4 md:mx-4"
           >
-            <div>
+            <div className="px-4 md:px-0">
               <Link
                 href={`/profile/${user.id}`}
                 className="flex w-fit items-center gap-3"
@@ -50,7 +47,7 @@ export default async function Page() {
                   href={`/post/${post.id}`}
                   className="flex w-full items-center gap-2"
                 >
-                  <h1 className="text-lg font-semibold tracking-tight hover:underline">
+                  <h1 className="text-lg font-semibold hover:underline">
                     {post.title}
                   </h1>
                 </Link>
@@ -64,12 +61,12 @@ export default async function Page() {
                     alt={post.title}
                     width={1000}
                     height={1000}
-                    className="h-60 rounded-md object-cover"
+                    className="h-40 rounded-md object-cover md:h-60"
                   />
                 )}
               </Link>
             </div>
-            <div className="mt-2 flex items-center justify-between gap-2">
+            <div className="mt-2 flex items-center justify-between gap-2 px-4 md:px-0">
               <div className="flex items-center gap-2">
                 <Button variant={"outline"} size={"icon-sm"}>
                   <ArrowBigUp />

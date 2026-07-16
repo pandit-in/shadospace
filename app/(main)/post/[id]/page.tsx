@@ -1,5 +1,6 @@
 import Reader from "@/components/reader"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Button } from "@/components/ui/button"
 import { getPostById } from "@/server/post"
 import { Metadata, ResolvingMetadata } from "next"
 import Image from "next/image"
@@ -17,28 +18,45 @@ export default async function page({
   }
   const { post, user } = result
   return (
-    <div className="mx-auto mt-10 max-w-2xl p-4">
+    <div className="mx-auto mt-6 max-w-2xl p-4">
       <h1 className="text-3xl font-bold tracking-tight">{post.title}</h1>
-      <Image
-        src={post.thumbnail || ""}
-        alt={post.title}
-        width={800}
-        height={400}
-        className="my-6 h-64 w-full rounded-lg object-cover"
-      />
-      <Link
-        href={`/profile/${user.id}`}
-        className="my-4 flex items-center gap-2"
-      >
-        <Avatar className="size-6">
-          <AvatarImage src={user.image ?? undefined} />
-          <AvatarFallback>{user.name?.[0] ?? ""}</AvatarFallback>
-        </Avatar>
-        <p className="text-sm text-muted-foreground">{user.name}</p>
-        <p className="text-xs text-muted-foreground">
-          {post.createdAt.toLocaleDateString()}
-        </p>
-      </Link>
+      <div className="flex items-center justify-between">
+        <Link
+          href={`/profile/${user.id}`}
+          className="my-4 flex items-center gap-2"
+        >
+          <Avatar className="size-7">
+            <AvatarImage src={user.image ?? undefined} />
+            <AvatarFallback>{user.name?.[0] ?? ""}</AvatarFallback>
+          </Avatar>
+          <div className="flex flex-col">
+            <p className="text-sm text-foreground/90">
+              {user.name} {`@${user.name?.toLowerCase().replaceAll(" ", "")}`}
+            </p>
+            <p className="text-xs text-muted-foreground">
+              {post.createdAt.toLocaleDateString()}
+            </p>
+          </div>
+        </Link>
+        <Button
+          variant={"secondary"}
+          nativeButton={false}
+          render={<Link href={`/post/${post.id}/edit`} />}
+        >
+          Edit
+        </Button>
+      </div>
+
+      {post.thumbnail && (
+        <Image
+          src={post.thumbnail}
+          alt={post.title}
+          width={800}
+          height={400}
+          className="my-6 h-64 w-full rounded-lg object-cover"
+        />
+      )}
+
       <div className="mt-4">
         <Reader content={post.content} />
       </div>
