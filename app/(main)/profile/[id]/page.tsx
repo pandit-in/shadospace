@@ -3,6 +3,9 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import Link from "next/link"
 import Image from "next/image"
 import { CalendarDays } from "lucide-react"
+import { db } from "@/db"
+import { like } from "@/db/schema/post"
+import { sql } from "drizzle-orm"
 
 export default async function ProfilePage({
   params,
@@ -18,6 +21,21 @@ export default async function ProfilePage({
   if (!profileUser) {
     return <h1 className="mt-10 text-center text-xl font-semibold">User not found</h1>
   }
+
+  const postIds = posts.map(({ post }) => post.id)
+  const voteCounts = postIds.length > 0
+    ? await db
+        .select({
+          postId: like.postId,
+          upvotes: sql<number>`coalesce(sum(case when ${like.type} = 'upvote' then 1 else 0 end), 0)::int`,
+          downvotes: sql<number>`coalesce(sum(case when ${like.type} = 'downvote' then 1 else 0 end), 0)::int`,
+        })
+        .from(like)
+        .where(sql`${like.postId} in ${postIds}`)
+        .groupBy(like.postId)
+    : []
+
+  const voteMap = new Map(voteCounts.map(v => [v.postId, { upvotes: v.upvotes, downvotes: v.downvotes }]))
 
   return (
     <div className="mx-auto mt-6 w-full max-w-2xl p-4">
@@ -48,35 +66,40 @@ export default async function ProfilePage({
           <p className="text-muted-foreground">No posts yet.</p>
         ) : (
           <div className="flex flex-col gap-4">
-            {posts.map(({ post }) => (
-              <div
-                key={post.id}
-                className="flex flex-col gap-2 border-b pb-4"
-              >
-                <Link
-                  href={`/post/${post.id}`}
-                  className="flex w-full items-center gap-2"
+            {posts.map(({ post }) => {
+              const votes = voteMap.get(post.id)
+              const score = (votes?.upvotes ?? 0) - (votes?.downvotes ?? 0)
+              return (
+                <div
+                  key={post.id}
+                  className="flex flex-col gap-2 border-b pb-4"
                 >
-                  <h3 className="text-lg font-semibold hover:underline">
-                    {post.title}
-                  </h3>
-                </Link>
-                {post.thumbnail && (
-                  <Link href={`/post/${post.id}`}>
-                    <Image
-                      src={post.thumbnail}
-                      alt={post.title}
-                      width={800}
-                      height={400}
-                      className="h-40 w-full rounded-md object-cover"
-                    />
+                  <Link
+                    href={`/post/${post.id}`}
+                    className="flex w-full items-center gap-2"
+                  >
+                    <h3 className="text-lg font-semibold hover:underline">
+                      {post.title}
+                    </h3>
                   </Link>
-                )}
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <span>{post.createdAt.toLocaleDateString()}</span>
+                  {post.thumbnail && (
+                    <Link href={`/post/${post.id}`}>
+                      <Image
+                        src={post.thumbnail}
+                        alt={post.title}
+                        width={800}
+                        height={400}
+                        className="h-40 w-full rounded-md object-cover"
+                      />
+                    </Link>
+                  )}
+                  <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                    <span>{post.createdAt.toLocaleDateString()}</span>
+                    <span>{score} vote{Math.abs(score) !== 1 ? "s" : ""}</span>
+                  </div>
                 </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
         )}
       </div>

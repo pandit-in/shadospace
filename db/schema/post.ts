@@ -1,6 +1,8 @@
 import { relations } from "drizzle-orm/_relations";
-import { pgTable, text, timestamp, boolean, index } from "drizzle-orm/pg-core";
+import { pgTable, pgEnum, text, timestamp, boolean, index } from "drizzle-orm/pg-core";
 import { user } from "./auth";
+
+export const voteTypeEnum = pgEnum("vote_type", ["upvote", "downvote"]);
 
 export const post = pgTable("post", {
   id: text("id").primaryKey(),
@@ -31,6 +33,7 @@ export const like = pgTable("like", {
     id: text("id").primaryKey(),
     userId: text("user_id").notNull(),
     postId: text("post_id").notNull(),
+    type: voteTypeEnum("type").notNull(),
     createdAt: timestamp("created_at").defaultNow().notNull(),
     updatedAt: timestamp("updated_at")
       .defaultNow()

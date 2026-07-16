@@ -1,22 +1,17 @@
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
-import { getAllPosts } from "@/server/post"
-import {
-  ArrowBigDown,
-  ArrowBigUp,
-  Bookmark,
-  Repeat2,
-  Share,
-} from "lucide-react"
+import { getAllPostsWithVotes } from "@/server/post"
+import { Bookmark, Repeat2, Share } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
+import VoteButtons from "@/components/post/vote-buttons"
 
 export default async function Page() {
-  const data = await getAllPosts()
+  const data = await getAllPostsWithVotes()
   return (
     <div>
       <div className="mx-auto mt-6 flex w-full max-w-2xl flex-col gap-4">
-        {data.map(({ post, user }) => (
+        {data.map(({ post, user, upvotes, downvotes }) => (
           <div
             key={post.id}
             className="flex flex-col gap-2 border-b pb-4 md:mx-4"
@@ -68,13 +63,11 @@ export default async function Page() {
             </div>
             <div className="mt-2 flex items-center justify-between gap-2 px-4 md:px-0">
               <div className="flex items-center gap-2">
-                <Button variant={"outline"} size={"icon-sm"}>
-                  <ArrowBigUp />
-                </Button>
-                <Button variant={"ghost"}>{"244"}</Button>
-                <Button variant={"outline"} size={"icon-sm"}>
-                  <ArrowBigDown />
-                </Button>
+                <VoteButtons
+                  postId={post.id}
+                  initialUpvotes={upvotes}
+                  initialDownvotes={downvotes}
+                />
                 <Button variant={"outline"} size={"icon-sm"}>
                   <Repeat2 />
                 </Button>
