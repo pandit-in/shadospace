@@ -21,12 +21,12 @@ export function Header() {
   const { data: session, isPending } = authClient.useSession()
   return (
     <header className="sticky top-0 right-0 left-0 z-50 w-full border-b bg-background/95 backdrop-blur-sm">
-      <div className="flex items-center justify-between p-4 max-w-2xl mx-auto">
+      <div className="mx-auto flex max-w-2xl items-center justify-between p-3">
         <Link href={"/"} className="flex items-center gap-2">
           <Image src={"/logo.png"} alt="logo" width={25} height={25} />
           <h1 className="text-xl font-medium">shadospace</h1>
         </Link>
-    {/* <div className="max-w-md mx-auto">
+        {/* <div className="max-w-md mx-auto">
         <InputGroup>
             <InputGroupInput id="inline-start-input" placeholder="Search..." />
             <InputGroupAddon align="inline-start">
@@ -35,87 +35,103 @@ export function Header() {
           </InputGroup>
           </div> */}
         <div className="flex items-center gap-2">
-          
-          {
-            session?.user ? (
-              <div className="flex items-center gap-2">
-                <Button variant={"outline"} size={"sm"} nativeButton={false} render={<Link href={"/new"}  className={"hover:underline"} />}>Create</Button>
+          {session?.user ? (
+            <div className="flex items-center gap-2">
+              <Button
+                variant={"outline"}
+                size={"sm"}
+                nativeButton={false}
+                render={<Link href={"/new"} className={"hover:underline"} />}
+              >
+                Create
+              </Button>
               <DropdownMenu>
-              <DropdownMenuTrigger>
-                {isPending ? (
-                  <Skeleton className="h-7 w-7 animate-pulse rounded-full" />
-                ) : session?.user && (
-                  <div className="flex items-center gap-2">
-                    <Avatar className="size-7">
-                      <AvatarImage
-                        src={
-                          session.user.image ||
-                          `https://ui-avatars.com/api/?name=${session.user.name}&size=24`
-                        }
-                      />
-                      <AvatarFallback>
-                        {session.user.name?.[0].toUpperCase() || ""}
-                      </AvatarFallback>
-                    </Avatar>
-                  </div>
-                ) }
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-44" side="left">
-                <DropdownMenuGroup>
-                  <DropdownMenuLabel className="flex items-center gap-2">
-                    <div>
-                    <p className="text-sm font-medium">{session?.user?.name}</p>
-                    <p className="text-xs text-muted-foreground">{session?.user?.email}</p>
-                    </div>
-                  </DropdownMenuLabel>
-                  <DropdownMenuSeparator/>
-                  <DropdownMenuItem
-                    render={<Link className="hover:underline" href={"/new"} />}
-                  >
-                    Create
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    render={
-                      <Link className="hover:underline" href={"/dashboard"} />
-                    }
-                  >
-                    Dashboard
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    render={
-                      <Link className="hover:underline" href={"/profile"} />
-                    }
-                  >
-                    Profile
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    render={
-                      <Link className="hover:underline" href={"/settings"} />
-                    }
-                  >
-                    Settings
-                  </DropdownMenuItem>
-                </DropdownMenuGroup>
-                <DropdownMenuSeparator />
-                <DropdownMenuGroup>
-                  <DropdownMenuItem
-                    onClick={async () => {
-                      await authClient.signOut()
-                      toast.success("Sign out successful")
-                    }}
-                    variant="destructive"
-                  >
-                    Sign Out
-                  </DropdownMenuItem>
-                </DropdownMenuGroup>
-              </DropdownMenuContent>
-            </DropdownMenu>
+                <DropdownMenuTrigger>
+                  {isPending ? (
+                    <Skeleton className="h-7 w-7 animate-pulse rounded-full" />
+                  ) : (
+                    session?.user && (
+                      <div className="flex items-center gap-2">
+                        <Avatar className="size-7">
+                          <AvatarImage
+                            src={
+                              session.user.image ||
+                              `https://ui-avatars.com/api/?name=${session.user.name}&size=24`
+                            }
+                          />
+                          <AvatarFallback>
+                            {session.user.name?.[0].toUpperCase() || ""}
+                          </AvatarFallback>
+                        </Avatar>
+                      </div>
+                    )
+                  )}
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-44" side="left">
+                  <DropdownMenuGroup>
+                    <DropdownMenuLabel className="flex items-center gap-2">
+                      <div>
+                        <p className="text-sm font-medium">
+                          {session?.user?.name}
+                        </p>
+                        <p className="text-xs text-muted-foreground">
+                          {session?.user?.email}
+                        </p>
+                      </div>
+                    </DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem
+                      render={
+                        <Link className="hover:underline" href={"/new"} />
+                      }
+                    >
+                      Create
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      render={
+                        <Link className="hover:underline" href={"/dashboard"} />
+                      }
+                    >
+                      Dashboard
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      render={
+                        <Link className="hover:underline" href={"/profile"} />
+                      }
+                    >
+                      Profile
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      render={
+                        <Link className="hover:underline" href={"/settings"} />
+                      }
+                    >
+                      Settings
+                    </DropdownMenuItem>
+                  </DropdownMenuGroup>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuGroup>
+                    <DropdownMenuItem
+                      onClick={async () => {
+                        await authClient.signOut()
+                        toast.success("Sign out successful")
+                      }}
+                      variant="destructive"
+                    >
+                      Sign Out
+                    </DropdownMenuItem>
+                  </DropdownMenuGroup>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
-            ) : (
-              <Button nativeButton={false} render={<Link className="hover:underline" href={"/signup"} />}>Get started</Button>
-            )
-          }
-         
+          ) : (
+            <Button
+              nativeButton={false}
+              render={<Link className="hover:underline" href={"/signup"} />}
+            >
+              Get started
+            </Button>
+          )}
         </div>
       </div>
     </header>

@@ -1,11 +1,6 @@
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { getAllPosts } from "@/server/post"
 import Link from "next/link"
 
@@ -13,28 +8,33 @@ export default async function Page() {
   const data = await getAllPosts()
   return (
     <div>
-      <div className="mt-6 max-w-2xl mx-auto flex w-full flex-col p-3 md:p-4 gap-4">
-       
-        {data.map(({post, user}) => (
-          <Card key={post.id}>
-            <CardHeader className="flex items-center gap-2 w-full">
-              <Link href={`/profile/${user.id}`} className="flex items-center gap-2 w-full">
+      <div className="mx-auto mt-4 flex w-full max-w-2xl flex-col gap-4">
+        {data.map(({ post, user }) => (
+          <div key={post.id} className="flex flex-col gap-2 border-b pb-4">
+            <div className="flex w-fit items-center gap-2 px-3">
+              <Link
+                href={`/profile/${user.id}`}
+                className="flex w-fit items-center gap-2"
+              >
                 <Avatar className={"size-5"}>
                   <AvatarImage src={user.image ?? undefined} />
                   <AvatarFallback>{user.name?.[0] ?? ""}</AvatarFallback>
                 </Avatar>
                 <p className="text-sm text-muted-foreground">{user.name}</p>
-                <p className="text-xs text-muted-foreground">{post.createdAt.toLocaleDateString()}</p>
+                <p className="text-xs text-muted-foreground">
+                  {post.createdAt.toLocaleDateString()}
+                </p>
               </Link>
-            </CardHeader>
-            <CardContent className="-mt-1">
-            <Link href={`/post/${post.id}`} className="flex items-center gap-2 w-full">
-            <CardTitle className="hover:underline font-mono">
-            {post.title}
-            </CardTitle>
-            </Link>
-            </CardContent>
-          </Card>
+            </div>
+            <div className="px-3">
+              <Link
+                href={`/post/${post.id}`}
+                className="flex w-full items-center gap-2"
+              >
+                <h1 className="font-mono hover:underline">{post.title}</h1>
+              </Link>
+            </div>
+          </div>
         ))}
       </div>
     </div>

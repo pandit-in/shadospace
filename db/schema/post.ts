@@ -1,4 +1,4 @@
-import { One, relations } from "drizzle-orm/_relations";
+import { relations } from "drizzle-orm/_relations";
 import { pgTable, text, timestamp, boolean, index } from "drizzle-orm/pg-core";
 import { user } from "./auth";
 
@@ -11,7 +11,7 @@ export const post = pgTable("post", {
   updatedAt: timestamp("updated_at")
     .defaultNow()
     .$onUpdate(() => /* @__PURE__ */ new Date())
-    .notNull(),
+    .notNull()
 });
 
 export const comment = pgTable("comment", {
