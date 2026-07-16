@@ -21,9 +21,9 @@ export function Header() {
   const { data: session, isPending } = authClient.useSession()
   return (
     <header className="sticky top-0 right-0 left-0 z-50 w-full border-b bg-background/95 backdrop-blur-sm">
-      <div className="mx-auto flex max-w-2xl items-center justify-between p-3">
+      <div className="mx-auto flex max-w-2xl items-center justify-between p-4">
         <Link href={"/"} className="flex items-center gap-2">
-          <Image src={"/logo.png"} alt="logo" width={25} height={25} />
+          <Image src={"/logo.png"} alt="logo" width={28} height={28} />
           <h1 className="text-xl font-medium">shadospace</h1>
         </Link>
         {/* <div className="max-w-md mx-auto">
@@ -39,7 +39,6 @@ export function Header() {
             <div className="flex items-center gap-2">
               <Button
                 variant={"outline"}
-                size={"sm"}
                 nativeButton={false}
                 render={<Link href={"/new"} className={"hover:underline"} />}
               >
@@ -52,7 +51,7 @@ export function Header() {
                   ) : (
                     session?.user && (
                       <div className="flex items-center gap-2">
-                        <Avatar className="size-7">
+                        <Avatar>
                           <AvatarImage
                             src={
                               session.user.image ||

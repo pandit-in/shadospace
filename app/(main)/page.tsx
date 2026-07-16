@@ -11,7 +11,7 @@ export default async function Page() {
       <div className="mx-auto mt-4 flex w-full max-w-2xl flex-col gap-4">
         {data.map(({ post, user }) => (
           <div key={post.id} className="flex flex-col gap-2 border-b pb-4">
-            <div className="flex w-fit items-center gap-2 px-3">
+            <div className="flex w-fit items-center gap-2 px-4">
               <Link
                 href={`/profile/${user.id}`}
                 className="flex w-fit items-center gap-2"
@@ -26,7 +26,7 @@ export default async function Page() {
                 </p>
               </Link>
             </div>
-            <div className="px-3">
+            <div className="px-4">
               <Link
                 href={`/post/${post.id}`}
                 className="flex w-full items-center gap-2"
