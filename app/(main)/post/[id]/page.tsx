@@ -1,7 +1,7 @@
 import Reader from "@/components/reader"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
-import { getPostById, getPostVotes } from "@/server/post"
+import { getPostById, getPostVotesWithUser } from "@/server/post"
 import { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
@@ -23,7 +23,7 @@ export default async function page({
     return <h1>Post not found</h1>
   }
   const { post, user } = result
-  const votes = await getPostVotes(post.id)
+  const votes = await getPostVotesWithUser(post.id, session?.user.id)
 
   return (
     <div className="mx-auto mt-6 max-w-2xl p-4">
@@ -76,6 +76,7 @@ export default async function page({
           postId={post.id}
           initialUpvotes={votes.upvotes}
           initialDownvotes={votes.downvotes}
+          initialUserVote={votes.userVote}
         />
       </div>
     </div>

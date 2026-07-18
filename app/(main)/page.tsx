@@ -1,17 +1,32 @@
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
-import { getAllPostsWithVotes } from "@/server/post"
+import { getAllPostsWithVotes, getPostVotesWithUser } from "@/server/post"
 import { Bookmark, Repeat2, Share } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import VoteButtons from "@/components/post/vote-buttons"
+import { auth } from "@/lib/auth"
+import { headers } from "next/headers"
 
 export default async function Page() {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  })
   const data = await getAllPostsWithVotes()
+  const postsWithVotes = await Promise.all(
+    data.map(async ({ post, user, upvotes, downvotes }) => ({
+      post,
+      user,
+      upvotes,
+      downvotes,
+      userVote: (await getPostVotesWithUser(post.id, session?.user.id)).userVote,
+    }))
+  )
+
   return (
     <div>
       <div className="mx-auto mt-6 flex w-full max-w-2xl flex-col gap-4">
-        {data.map(({ post, user, upvotes, downvotes }) => (
+        {postsWithVotes.map(({ post, user, upvotes, downvotes, userVote }) => (
           <div
             key={post.id}
             className="flex flex-col gap-2 border-b pb-4 md:mx-4"
@@ -67,6 +82,7 @@ export default async function Page() {
                   postId={post.id}
                   initialUpvotes={upvotes}
                   initialDownvotes={downvotes}
+                  initialUserVote={userVote}
                 />
                 <Button variant={"outline"} size={"icon-sm"}>
                   <Repeat2 />

@@ -20,10 +20,10 @@ export default function VoteButtons({
   initialUserVote = null,
 }: VoteButtonsProps) {
   const { data: session } = authClient.useSession()
-  const [upvotes, setUpvotes] = useState(initialUpvotes)
-  const [downvotes, setDownvotes] = useState(initialDownvotes)
+  const [upvotes, setUpvotes] = useState(() => initialUpvotes)
+  const [downvotes, setDownvotes] = useState(() => initialDownvotes)
   const [userVote, setUserVote] = useState<"upvote" | "downvote" | null>(
-    initialUserVote
+    () => initialUserVote ?? null
   )
   const [isPending, setIsPending] = useState(false)
 
