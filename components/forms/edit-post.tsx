@@ -97,11 +97,12 @@ export default function EditPostForm({
                       <UploadDropzone
                         appearance={{
                           button:
-                            "ut-ready:bg-red-800 ut-uploading:cursor-not-allowed bg-red-500 bg-none after:bg-orange-400",
+                            "ut-ready:bg-red-800 -mb-3 text-sm ut-uploading:cursor-not-allowed bg-red-500 bg-none after:bg-orange-400",
                           container:
                             "w-full h-44 border-2 border-dashed border-red-500/10 flex-row items-center rounded-md bg-red-500/10",
-                          uploadIcon: "hidden",
-                          label: "hidden",
+                          uploadIcon: "-mt-2",
+                          label:
+                            "text-xs text-muted-foreground hover:text-foreground/90",
                           allowedContent:
                             "flex h-8 flex-col items-center justify-center px-2 text-white hidden",
                         }}
@@ -158,7 +159,7 @@ export default function EditPostForm({
       </div>
       <div className="mt-4 w-full">
         <Button type="submit" form="edit-post-form" className="w-full">
-          Update Post
+          {form.formState.isSubmitting ? "Updating..." : "Update Post"}
         </Button>
       </div>
     </div>

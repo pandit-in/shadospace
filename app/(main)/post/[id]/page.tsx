@@ -2,16 +2,21 @@ import Reader from "@/components/reader"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { getPostById, getPostVotes } from "@/server/post"
-import { Metadata, ResolvingMetadata } from "next"
+import { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
 import VoteButtons from "@/components/post/vote-buttons"
+import { auth } from "@/lib/auth"
+import { headers } from "next/headers"
 
 export default async function page({
   params,
 }: {
   params: Promise<{ id: string }>
 }) {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  })
   const { id } = await params
   const result = await getPostById(id)
   if (!result) {
@@ -41,13 +46,15 @@ export default async function page({
             </p>
           </div>
         </Link>
-        <Button
-          variant={"secondary"}
-          nativeButton={false}
-          render={<Link href={`/post/${post.id}/edit`} />}
-        >
-          Edit
-        </Button>
+        {session?.user.id === user.id && (
+          <Button
+            variant={"secondary"}
+            nativeButton={false}
+            render={<Link href={`/post/${post.id}/edit`} />}
+          >
+            Edit
+          </Button>
+        )}
       </div>
 
       {post.thumbnail && (
@@ -79,10 +86,7 @@ type Props = {
   params: Promise<{ id: string }>
 }
 
-export async function generateMetadata(
-  { params }: Props,
-  parent: ResolvingMetadata
-): Promise<Metadata> {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params
   const post = await getPostById(id)
   return {

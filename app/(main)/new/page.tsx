@@ -19,7 +19,7 @@ import { useRouter } from "next/navigation"
 import Editor from "@/components/editor"
 import React from "react"
 import Image from "next/image"
-import { UploadButton, UploadDropzone } from "@/lib/uploadthing"
+import { UploadDropzone } from "@/lib/uploadthing"
 
 const formSchema = z.object({
   title: z
@@ -32,7 +32,7 @@ const formSchema = z.object({
 
 export default function Page() {
   const router = useRouter()
-  const { data: session, isPending } = authClient.useSession()
+  const { data: session } = authClient.useSession()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -53,7 +53,8 @@ export default function Page() {
       toast.success("Post created successfully")
       router.push("/")
     } catch (error) {
-      toast.error("Failed to create post")
+      const err = error as Error
+      toast.error("Failed to create post" + err.message)
     }
   }
 
@@ -93,13 +94,14 @@ export default function Page() {
                       <UploadDropzone
                         appearance={{
                           button:
-                            "ut-ready:bg-red-800 ut-uploading:cursor-not-allowed bg-red-500 bg-none after:bg-orange-400",
+                            "ut-ready:bg-red-800/50 -mb-3 text-sm ut-uploading:cursor-not-allowed bg-red-500 outline-none after:bg-red-400",
                           container:
-                            "w-full h-44 border-2 border-dashed border-red-500/10 flex-row items-center rounded-md bg-red-500/10",
-                          uploadIcon: "hidden",
-                          label: "hidden",
+                            "w-full h-44 border-2 border-dashed border-red-500/10 rounded-md bg-red-500/10",
+                          uploadIcon: "-mt-2",
+                          label:
+                            "text-xs text-muted-foreground hover:text-foreground/90",
                           allowedContent:
-                            "flex h-8 flex-col items-center justify-center px-2 text-white hidden",
+                            "flex h-8 flex-col items-center justify-center px-2 text-xs text-muted-foreground hidden",
                         }}
                         endpoint="thumbnailUploader"
                         onClientUploadComplete={(res) => {
@@ -156,7 +158,7 @@ export default function Page() {
       </div>
       <div className="mt-4 w-full">
         <Button type="submit" form="create-post-form" className="w-full">
-          Submit
+          {form.formState.isSubmitting ? "Creating..." : "Create Post"}
         </Button>
       </div>
     </div>
