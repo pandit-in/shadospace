@@ -1,32 +1,22 @@
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
-import { getAllPostsWithVotes, getPostVotesWithUser } from "@/server/post"
-import { Bookmark, Repeat2, Share } from "lucide-react"
+import { getAllPosts } from "@/server/post"
+import { formatDate } from "@/utils/date"
 import Image from "next/image"
 import Link from "next/link"
-import VoteButtons from "@/components/post/vote-buttons"
-import { auth } from "@/lib/auth"
-import { headers } from "next/headers"
 
 export default async function Page() {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  })
-  const data = await getAllPostsWithVotes()
+  const data = await getAllPosts()
   const postsWithVotes = await Promise.all(
-    data.map(async ({ post, user, upvotes, downvotes }) => ({
+    data.map(async ({ post, user }) => ({
       post,
       user,
-      upvotes,
-      downvotes,
-      userVote: (await getPostVotesWithUser(post.id, session?.user.id)).userVote,
     }))
   )
 
   return (
     <div>
       <div className="mx-auto mt-6 flex w-full max-w-2xl flex-col gap-4">
-        {postsWithVotes.map(({ post, user, upvotes, downvotes, userVote }) => (
+        {postsWithVotes.map(({ post, user }) => (
           <div
             key={post.id}
             className="flex flex-col gap-2 border-b pb-4 md:mx-4"
@@ -34,19 +24,19 @@ export default async function Page() {
             <div className="px-4 md:px-0">
               <Link
                 href={`/profile/${user.id}`}
-                className="flex w-fit items-center gap-3"
+                className="flex w-fit items-center gap-2"
               >
-                <Avatar className={"size-7"}>
+                <Avatar className={"size-5"}>
                   <AvatarImage src={user.image ?? undefined} />
                   <AvatarFallback>{user.name?.[0] ?? ""}</AvatarFallback>
                 </Avatar>
-                <div className="flex flex-col">
-                  <p className="text-sm text-foreground/90">
-                    {user.name}{" "}
+                <div className="flex items-center gap-2">
+                  <p className="text-sm text-foreground/80">
                     {`@${user.name?.toLowerCase().replaceAll(" ", "")}`}
                   </p>
+                  {"•"}
                   <small className="text-xs text-muted-foreground">
-                    {post.createdAt.toLocaleDateString()}
+                    {formatDate(new Date(post.createdAt))}
                   </small>
                 </div>
               </Link>
@@ -75,27 +65,6 @@ export default async function Page() {
                   />
                 )}
               </Link>
-            </div>
-            <div className="mt-2 flex items-center justify-between gap-2 px-4 md:px-0">
-              <div className="flex items-center gap-2">
-                <VoteButtons
-                  postId={post.id}
-                  initialUpvotes={upvotes}
-                  initialDownvotes={downvotes}
-                  initialUserVote={userVote}
-                />
-                <Button variant={"outline"} size={"icon-sm"}>
-                  <Repeat2 />
-                </Button>
-              </div>
-              <div className="flex items-center gap-2">
-                <Button variant={"outline"} size={"icon-sm"}>
-                  <Bookmark />
-                </Button>
-                <Button variant={"outline"} size={"icon-sm"}>
-                  <Share />
-                </Button>
-              </div>
             </div>
           </div>
         ))}

@@ -1,8 +1,8 @@
-import { relations } from "drizzle-orm/_relations";
-import { pgTable, pgEnum, text, timestamp, boolean, index } from "drizzle-orm/pg-core";
-import { user } from "./auth";
+import { relations } from "drizzle-orm/_relations"
+import { pgTable, pgEnum, text, timestamp } from "drizzle-orm/pg-core"
+import { user } from "./auth"
 
-export const voteTypeEnum = pgEnum("vote_type", ["upvote", "downvote"]);
+export const voteTypeEnum = pgEnum("vote_type", ["upvote", "downvote"])
 
 export const post = pgTable("post", {
   id: text("id").primaryKey(),
@@ -14,60 +14,12 @@ export const post = pgTable("post", {
   updatedAt: timestamp("updated_at")
     .defaultNow()
     .$onUpdate(() => /* @__PURE__ */ new Date())
-    .notNull()
-});
+    .notNull(),
+})
 
-export const comment = pgTable("comment", {
-    id: text("id").primaryKey(),
-    content: text("content").notNull(),
-    userId: text("user_id").notNull(),
-    postId: text("post_id").notNull(),
-    createdAt: timestamp("created_at").defaultNow().notNull(),
-    updatedAt: timestamp("updated_at")
-      .defaultNow()
-      .$onUpdate(() => /* @__PURE__ */ new Date())
-      .notNull(),
-});
-
-export const like = pgTable("like", {
-    id: text("id").primaryKey(),
-    userId: text("user_id").notNull(),
-    postId: text("post_id").notNull(),
-    type: voteTypeEnum("type").notNull(),
-    createdAt: timestamp("created_at").defaultNow().notNull(),
-    updatedAt: timestamp("updated_at")
-      .defaultNow()
-      .$onUpdate(() => /* @__PURE__ */ new Date())
-      .notNull(),
-  });
-
-export const postRelations = relations(post, ({ many, one }) => ({
-  comments: many(comment),
-  likes: many(like),
+export const postRelations = relations(post, ({ one }) => ({
   user: one(user, {
     fields: [post.userId],
     references: [user.id],
   }),
-}));
-
-export const commentRelations = relations(comment, ({ many, one }) => ({
-  post: one(post, {
-    fields: [comment.postId],
-    references: [post.id],
-  }),
-  user: one(user, {
-    fields: [comment.userId],
-    references: [user.id],
-  }),
-}));
-
-export const likeRelations = relations(like, ({ one }) => ({
-  post: one(post, {
-    fields: [like.postId],
-    references: [post.id],
-  }),
-  user: one(user, {
-    fields: [like.userId],
-    references: [user.id],
-  }),
-}));
+}))
