@@ -3,19 +3,21 @@ import {
   SidebarContent,
   SidebarFooter,
   SidebarGroup,
-  SidebarGroupAction,
   SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
-  SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import Link from "next/link"
 
 export function RightSidebar() {
   return (
-    <Sidebar side="right" collapsible="icon" variant="floating" className="w-68 mr-4 mt-18 pb-10">
+    <Sidebar
+      side="right"
+      collapsible="icon"
+      variant="floating"
+      className="mt-18 mr-4 w-68 pb-10"
+    >
       <SidebarHeader>
         <SidebarGroup>
           <SidebarGroupContent>

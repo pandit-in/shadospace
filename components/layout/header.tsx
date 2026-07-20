@@ -16,8 +16,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { toast } from "sonner"
-import { InputGroup, InputGroupAddon, InputGroupInput } from "../ui/input-group"
-import { SearchIcon } from "lucide-react"
 
 export function Header() {
   const { data: session, isPending } = authClient.useSession()
@@ -30,111 +28,61 @@ export function Header() {
         </Link>
 
         <div className="flex items-center gap-2">
-          <div className="mx-auto hidden max-w-md md:block">
-            <InputGroup>
-              <InputGroupInput
-                id="inline-start-input"
-                placeholder="Search..."
-              />
-              <InputGroupAddon align="inline-start">
-                <SearchIcon className="text-muted-foreground" />
-              </InputGroupAddon>
-            </InputGroup>
-          </div>
-          {session?.user ? (
+          {isPending ? (
             <div className="flex items-center gap-2">
+              <Skeleton className="h-8 w-16 rounded-md" />
+              <Skeleton className="h-8 w-8 rounded-full" />
+            </div>
+          ) : session ? (
+            <DropdownMenu>
               <Button
-                variant={"outline"}
+                variant="outline"
                 nativeButton={false}
-                render={<Link href={"/new"} className={"hover:underline"} />}
-              >
-                Create
-              </Button>
-              <DropdownMenu>
-                <DropdownMenuTrigger>
-                  {isPending ? (
-                    <Skeleton className="h-7 w-7 animate-pulse rounded-full" />
-                  ) : (
-                    session?.user && (
-                      <div className="flex items-center gap-2">
-                        <Avatar>
-                          <AvatarImage
-                            src={
-                              session.user.image ||
-                              `https://ui-avatars.com/api/?name=${session.user.name}&size=24`
-                            }
-                          />
-                          <AvatarFallback>
-                            {session.user.name?.[0].toUpperCase() || ""}
-                          </AvatarFallback>
-                        </Avatar>
-                      </div>
-                    )
-                  )}
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-44" side="left">
-                  <DropdownMenuGroup>
-                    <DropdownMenuLabel className="flex items-center gap-2">
-                      <div>
-                        <p className="text-sm font-medium">
-                          {session?.user?.name}
-                        </p>
-                        <p className="text-xs text-muted-foreground">
-                          {session?.user?.email}
-                        </p>
-                      </div>
-                    </DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem
-                      render={
-                        <Link className="hover:underline" href={"/new"} />
-                      }
-                    >
-                      Create
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                      render={
-                        <Link className="hover:underline" href={"/dashboard"} />
-                      }
-                    >
-                      Dashboard
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                      render={
-                        <Link className="hover:underline" href={"/profile"} />
-                      }
-                    >
-                      Profile
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                      render={
-                        <Link className="hover:underline" href={"/settings"} />
-                      }
-                    >
-                      Settings
-                    </DropdownMenuItem>
-                  </DropdownMenuGroup>
+                render={
+                  <Link className="hover:underline" href="/new">
+                    Create
+                  </Link>
+                }
+              />
+              <DropdownMenuTrigger>
+                <Avatar className="h-8 w-8">
+                  <AvatarImage
+                    src={session.user.image || ""}
+                    alt={session.user.name}
+                  />
+                  <AvatarFallback>
+                    {session.user.name?.charAt(0)}
+                  </AvatarFallback>
+                </Avatar>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent side="inline-start" className="w-fit">
+                <DropdownMenuGroup>
+                  <DropdownMenuLabel className="flex flex-col gap-1">
+                    <span>{session.user.name}</span>
+                    <span className="text-xs text-muted-foreground">
+                      {session.user.email.slice(0, 16)}...
+                    </span>
+                  </DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuGroup>
-                    <DropdownMenuItem
-                      onClick={async () => {
-                        await authClient.signOut()
-                        toast.success("Sign out successful")
-                      }}
-                      variant="destructive"
-                    >
-                      Sign Out
-                    </DropdownMenuItem>
+                    <DropdownMenuItem>Profile</DropdownMenuItem>
+                    <DropdownMenuItem>Settings</DropdownMenuItem>
                   </DropdownMenuGroup>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    onClick={async () => {
+                      await authClient.signOut()
+                      toast.success("Signed out successfully")
+                    }}
+                  >
+                    Sign out
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
+              </DropdownMenuContent>
+            </DropdownMenu>
           ) : (
-            <Button
-              nativeButton={false}
-              render={<Link className="hover:underline" href={"/signup"} />}
-            >
-              Get started
+            <Button variant="outline">
+              <Link href="/sign-in">Sign in</Link>
             </Button>
           )}
         </div>

@@ -1,6 +1,4 @@
-import { AppSidebar } from "@/components/app-sidebar"
 import { Header } from "@/components/layout/header"
-import { RightSidebar } from "@/components/right-sidebar"
 import { SidebarProvider } from "@/components/ui/sidebar"
 import React from "react"
 
