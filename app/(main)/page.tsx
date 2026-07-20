@@ -17,10 +17,7 @@ export default async function Page() {
     <div>
       <div className="mx-auto mt-6 flex w-full max-w-2xl flex-col gap-4">
         {postsWithVotes.map(({ post, user }) => (
-          <div
-            key={post.id}
-            className="flex flex-col gap-2 border-b pb-4 md:mx-4"
-          >
+          <div key={post.id} className="flex flex-col gap-2 pb-4 md:mx-4">
             <div className="px-4 md:px-0">
               <Link
                 href={`/profile/${user.id}`}
@@ -59,9 +56,11 @@ export default async function Page() {
                   <Image
                     src={post.thumbnail}
                     alt={post.title}
+                    loading="eager"
+                    quality={75}
                     width={1000}
                     height={1000}
-                    className="h-40 rounded-md object-cover md:h-60"
+                    className="h-auto rounded-md object-cover"
                   />
                 )}
               </Link>

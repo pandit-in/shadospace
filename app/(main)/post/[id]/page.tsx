@@ -59,9 +59,11 @@ export default async function page({
         <Image
           src={post.thumbnail}
           alt={post.title}
-          width={800}
-          height={400}
-          className="my-6 h-64 w-full rounded-lg object-cover"
+          width={1000}
+          quality={75}
+          loading="eager"
+          height={1000}
+          className="my-6 h-auto w-full rounded-lg object-cover"
         />
       )}
 
