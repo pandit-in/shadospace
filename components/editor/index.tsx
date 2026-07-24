@@ -1,8 +1,9 @@
 import { EditorContent, useEditor } from "@tiptap/react"
 import StarterKit from "@tiptap/starter-kit"
+import Image from "@tiptap/extension-image"
 import { MenuBar } from "./menu-bar"
 
-const extensions = [StarterKit]
+const extensions = [StarterKit, Image]
 
 export default function Editor({
   content,

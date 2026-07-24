@@ -11,6 +11,16 @@ import {
   DropdownMenuItem,
 } from "../ui/dropdown-menu"
 import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../ui/dialog"
+import { UploadDropzone } from "@/lib/uploadthing"
+import { toast } from "sonner"
+import {
   Bold,
   ChevronDown,
   Italic,
@@ -33,6 +43,7 @@ import {
   CornerDownLeft,
   Undo,
   Redo,
+  ImagePlus,
 } from "lucide-react"
 
 interface ToolbarButtonProps {
@@ -105,7 +116,7 @@ export const MenuBar = ({ editor }: { editor: Editor }) => {
           <Redo className="size-4" />
         </ToolbarButton>
 
-        <Separator orientation="vertical" className="mx-0.5 h-6" />
+        <Separator orientation="vertical" />
 
         {/* Inline formatting */}
         <ToolbarButton
@@ -141,7 +152,7 @@ export const MenuBar = ({ editor }: { editor: Editor }) => {
           <Code className="size-4" />
         </ToolbarButton>
 
-        <Separator orientation="vertical" className="mx-0.5 h-6" />
+        <Separator orientation="vertical" />
 
         {/* Clear options */}
         <ToolbarButton
@@ -157,7 +168,7 @@ export const MenuBar = ({ editor }: { editor: Editor }) => {
           <Eraser className="size-4" />
         </ToolbarButton>
 
-        <Separator orientation="vertical" className="mx-0.5 h-6" />
+        <Separator orientation="vertical" />
 
         {/* Heading Dropdown Selection */}
         <DropdownMenu>
@@ -166,7 +177,7 @@ export const MenuBar = ({ editor }: { editor: Editor }) => {
               <Button
                 variant="ghost"
                 size="sm"
-                className="h-8 gap-1.5 px-2.5 text-xs font-normal"
+                className="h-8 gap-1.5 px-2.5 text-xs font-medium"
                 type="button"
               >
                 <span>{getActiveHeadingLabel()}</span>
@@ -239,7 +250,7 @@ export const MenuBar = ({ editor }: { editor: Editor }) => {
           </DropdownMenuContent>
         </DropdownMenu>
 
-        <Separator orientation="vertical" className="mx-0.5 h-6" />
+        <Separator orientation="vertical" />
 
         {/* Lists & Complex Blocks */}
         <ToolbarButton
@@ -271,7 +282,7 @@ export const MenuBar = ({ editor }: { editor: Editor }) => {
           <Quote className="size-4" />
         </ToolbarButton>
 
-        <Separator orientation="vertical" className="mx-0.5 h-6" />
+        <Separator orientation="vertical" />
 
         {/* Structure / Breaks */}
         <ToolbarButton
@@ -280,6 +291,59 @@ export const MenuBar = ({ editor }: { editor: Editor }) => {
         >
           <SeparatorHorizontal className="size-4" />
         </ToolbarButton>
+        <Dialog>
+          <DialogTrigger>
+            <Tooltip>
+              <TooltipTrigger
+                render={
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon-sm"
+                    className="h-8"
+                  >
+                    <ImagePlus className="size-4" />
+                  </Button>
+                }
+              />
+              <TooltipContent>Insert Image</TooltipContent>
+            </Tooltip>
+          </DialogTrigger>
+          <DialogContent className="max-w-xl">
+            <DialogHeader>
+              <DialogTitle>Upload an image</DialogTitle>
+              <DialogDescription>
+                Choose an image to insert directly into your post content.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="flex flex-col gap-4">
+              <UploadDropzone
+                appearance={{
+                  button:
+                    "ut-ready:bg-red-800/50 -mb-3 text-sm ut-uploading:cursor-not-allowed bg-red-500 outline-none after:bg-red-400",
+                  container:
+                    "w-full h-44 border-2 border-dashed border-red-500/10 rounded-md bg-red-500/10",
+                  uploadIcon: "-mt-2",
+                  label:
+                    "text-xs text-muted-foreground hover:text-foreground/90",
+                  allowedContent:
+                    "flex h-8 flex-col items-center justify-center px-2 text-xs text-muted-foreground hidden",
+                }}
+                endpoint="thumbnailUploader"
+                onClientUploadComplete={(res) => {
+                  console.log("Files: ", res)
+                  toast.success("Thumbnail uploaded successfully")
+                  editor.chain().focus().setImage({ src: res[0].ufsUrl }).run()
+                }}
+                onUploadError={(error: Error) => {
+                  console.log("Error: ", error)
+                  toast.error("Failed to upload thumbnail")
+                }}
+              />
+            </div>
+          </DialogContent>
+        </Dialog>
+
         <ToolbarButton
           onClick={() => editor.chain().focus().setHardBreak().run()}
           tooltip="Line Break"
