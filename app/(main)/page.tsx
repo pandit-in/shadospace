@@ -6,17 +6,11 @@ import Link from "next/link"
 
 export default async function Page() {
   const data = await getAllPosts()
-  const postsWithVotes = await Promise.all(
-    data.map(async ({ post, user }) => ({
-      post,
-      user,
-    }))
-  )
 
   return (
     <div>
       <div className="mx-auto mt-6 flex w-full max-w-2xl flex-col gap-4">
-        {postsWithVotes.map(({ post, user }) => (
+        {data.map(({ post, user }) => (
           <div key={post.id} className="flex flex-col gap-2 pb-4 md:mx-4">
             <div className="px-4 md:px-0">
               <Link
