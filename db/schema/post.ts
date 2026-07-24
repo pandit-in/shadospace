@@ -1,8 +1,6 @@
 import { relations } from "drizzle-orm/_relations"
-import { pgTable, pgEnum, text, timestamp } from "drizzle-orm/pg-core"
+import { pgTable, text, timestamp } from "drizzle-orm/pg-core"
 import { user } from "./auth"
-
-export const voteTypeEnum = pgEnum("vote_type", ["upvote", "downvote"])
 
 export const post = pgTable("post", {
   id: text("id").primaryKey(),
