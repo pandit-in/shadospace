@@ -9,58 +9,66 @@ export default async function Page() {
 
   return (
     <div>
-      <div className="mx-auto mt-6 flex w-full max-w-2xl flex-col gap-4">
-        {data.map(({ post, user }) => (
-          <div key={post.id} className="flex flex-col gap-2 pb-4 md:mx-4">
-            <div className="px-4 md:px-0">
-              <Link
-                href={`/profile/${user.id}`}
-                className="flex w-fit items-center gap-2"
-              >
-                <Avatar className={"size-5"}>
-                  <AvatarImage src={user.image ?? undefined} />
-                  <AvatarFallback>{user.name?.[0] ?? ""}</AvatarFallback>
-                </Avatar>
-                <div className="flex items-center gap-2">
-                  <p className="text-sm text-foreground/80">
-                    {`@${user.name?.toLowerCase().replaceAll(" ", "")}`}
+      <div className="mx-auto mt-6 flex w-full max-w-2xl flex-col gap-5 px-4 md:px-0">
+        {data.map(({ post, user }) => {
+          const excerpt = post.content
+            .replace(/<[^>]+>/g, "")
+            .slice(0, 140)
+            .trim()
+
+          return (
+            <article key={post.id}>
+              <div className="grid gap-4 py-2 pb-6 sm:grid-cols-[1fr_220px] sm:items-center md:px-4">
+                <div className="flex flex-col gap-3">
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <Link
+                      href={`/profile/${user.id}`}
+                      className="flex items-center gap-2 text-foreground/80 hover:text-foreground"
+                    >
+                      <Avatar className="size-5">
+                        <AvatarImage src={user.image ?? undefined} />
+                        <AvatarFallback>{user.name?.[0] ?? ""}</AvatarFallback>
+                      </Avatar>
+                      <span>{`@${user.name?.toLowerCase().replaceAll(" ", "")}`}</span>
+                    </Link>
+                    <span>•</span>
+                    <span>{formatDate(new Date(post.createdAt))}</span>
+                  </div>
+
+                  <Link href={`/post/${post.id}`}>
+                    <h2 className="text-base font-semibold tracking-tight hover:text-red-700 hover:underline">
+                      {post.title}
+                    </h2>
+                  </Link>
+
+                  <p className="line-clamp-2 hidden text-sm text-foreground/75 md:block">
+                    {excerpt}
+                    {excerpt.length === 140 ? "..." : ""}
                   </p>
-                  {"•"}
-                  <small className="text-xs text-muted-foreground">
-                    {formatDate(new Date(post.createdAt))}
-                  </small>
                 </div>
-              </Link>
-            </div>
-            <div className="flex flex-col gap-2">
-              <div className="px-4 md:px-0">
+
                 <Link
                   href={`/post/${post.id}`}
-                  className="flex w-full items-center gap-2"
+                  className="relative overflow-hidden rounded-md"
                 >
-                  <h1 className="text-lg font-semibold hover:underline">
-                    {post.title}
-                  </h1>
+                  {post.thumbnail ? (
+                    <Image
+                      src={post.thumbnail}
+                      alt={post.title}
+                      width={800}
+                      height={600}
+                      className="h-auto w-full"
+                    />
+                  ) : (
+                    <div className="flex h-40 items-center justify-center bg-muted/60 text-sm text-muted-foreground sm:h-44">
+                      No image
+                    </div>
+                  )}
                 </Link>
               </div>
-            </div>
-            <div className="flex w-fit gap-4 px-4 md:px-0">
-              <Link href={`/post/${post.id}`}>
-                {post.thumbnail && (
-                  <Image
-                    src={post.thumbnail}
-                    alt={post.title}
-                    loading="eager"
-                    quality={75}
-                    width={1000}
-                    height={1000}
-                    className="h-auto rounded-md object-cover"
-                  />
-                )}
-              </Link>
-            </div>
-          </div>
-        ))}
+            </article>
+          )
+        })}
       </div>
     </div>
   )
