@@ -1,6 +1,8 @@
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
+import { Button } from "@/components/ui/button"
 import { getAllPosts } from "@/server/post"
 import { formatDate } from "@/utils/date"
+import { ArrowBigUpIcon } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 
@@ -13,7 +15,7 @@ export default async function Page() {
         {data.map(({ post, user }) => {
           const excerpt = post.content
             .replace(/<[^>]+>/g, "")
-            .slice(0, 140)
+            .slice(0, 240)
             .trim()
 
           return (
@@ -41,10 +43,20 @@ export default async function Page() {
                     </h2>
                   </Link>
 
-                  <p className="line-clamp-2 hidden text-sm text-foreground/75 md:block">
+                  <p className="line-clamp-2 text-sm text-foreground/75">
                     {excerpt}
-                    {excerpt.length === 140 ? "..." : ""}
                   </p>
+                  <div className="flex items-center gap-2">
+                    <Button size="icon-sm" variant="ghost">
+                      <ArrowBigUpIcon />
+                    </Button>
+                    <Button size="icon-sm" variant="ghost">
+                      <ArrowBigUpIcon />
+                    </Button>
+                    <Button size="icon-sm" variant="ghost">
+                      <ArrowBigUpIcon />
+                    </Button>
+                  </div>
                 </div>
 
                 <Link
