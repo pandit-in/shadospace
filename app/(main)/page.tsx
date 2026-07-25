@@ -2,7 +2,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { getAllPosts } from "@/server/post"
 import { formatDate } from "@/utils/date"
-import { ArrowBigUpIcon } from "lucide-react"
+import { ArrowBigUpIcon, Bookmark, BookmarkIcon } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 
@@ -21,7 +21,7 @@ export default async function Page() {
           return (
             <article key={post.id}>
               <div className="grid gap-4 py-2 pb-6 sm:grid-cols-[1fr_220px] sm:items-center md:px-4">
-                <div className="flex flex-col gap-3">
+                <div className="flex flex-col gap-2">
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <Link
                       href={`/profile/${user.id}`}
@@ -46,16 +46,21 @@ export default async function Page() {
                   <p className="line-clamp-2 text-sm text-foreground/75">
                     {excerpt}
                   </p>
-                  <div className="flex items-center gap-2">
-                    <Button size="icon-sm" variant="ghost">
-                      <ArrowBigUpIcon />
-                    </Button>
-                    <Button size="icon-sm" variant="ghost">
-                      <ArrowBigUpIcon />
-                    </Button>
-                    <Button size="icon-sm" variant="ghost">
-                      <ArrowBigUpIcon />
-                    </Button>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Button size="icon-sm" variant="ghost">
+                        <ArrowBigUpIcon />
+                      </Button>
+                      <Button size="icon-sm" variant="ghost">
+                        <ArrowBigUpIcon />
+                      </Button>
+                      <Button size="icon-sm" variant="ghost">
+                        <ArrowBigUpIcon />
+                      </Button>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <BookmarkIcon className="h-4 w-4" />
+                    </div>
                   </div>
                 </div>
 
