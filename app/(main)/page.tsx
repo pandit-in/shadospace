@@ -2,7 +2,17 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { getAllPosts } from "@/server/post"
 import { formatDate } from "@/utils/date"
-import { ArrowBigUpIcon, Bookmark, BookmarkIcon } from "lucide-react"
+import {
+  ArrowBigDownDashIcon,
+  ArrowBigUpDashIcon,
+  ArrowBigUpIcon,
+  Bookmark,
+  BookmarkIcon,
+  MessageCircle,
+  MessageSquare,
+  MessageSquareText,
+  MessagesSquare,
+} from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 
@@ -49,17 +59,19 @@ export default async function Page() {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <Button size="icon-sm" variant="ghost">
-                        <ArrowBigUpIcon />
+                        <ArrowBigUpDashIcon />
                       </Button>
                       <Button size="icon-sm" variant="ghost">
-                        <ArrowBigUpIcon />
+                        <ArrowBigDownDashIcon />
                       </Button>
                       <Button size="icon-sm" variant="ghost">
-                        <ArrowBigUpIcon />
+                        <MessageSquareText className="size-3.5" />
                       </Button>
                     </div>
                     <div className="flex items-center gap-2">
-                      <BookmarkIcon className="h-4 w-4" />
+                      <Button size="icon-sm" variant="ghost">
+                        <BookmarkIcon className="size-3.5" />
+                      </Button>
                     </div>
                   </div>
                 </div>
