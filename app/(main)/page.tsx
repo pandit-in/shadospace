@@ -5,16 +5,13 @@ import { formatDate } from "@/utils/date"
 import {
   ArrowBigDownDashIcon,
   ArrowBigUpDashIcon,
-  ArrowBigUpIcon,
-  Bookmark,
   BookmarkIcon,
-  MessageCircle,
-  MessageSquare,
   MessageSquareText,
-  MessagesSquare,
 } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
+
+export const revalidate = 0
 
 export default async function Page() {
   const data = await getAllPosts()
