@@ -1,6 +1,22 @@
+import { Metadata } from "next"
 import Link from "next/link"
 import { Mail, MessageCircle } from "lucide-react"
 import { FaGithub, FaTwitter } from "react-icons/fa"
+
+export const metadata: Metadata = {
+  title: "Contact Us",
+  description:
+    "Get in touch with the Shadospace team. Share your feedback, report bugs, inquire about collaborations, or connect with us.",
+  alternates: {
+    canonical: "https://shadospace.in/contact",
+  },
+  openGraph: {
+    title: "Contact Shadospace",
+    description:
+      "Get in touch with the Shadospace team for feedback, bug reports, and collaborations.",
+    url: "https://shadospace.in/contact",
+  },
+}
 
 export default function ContactPage() {
   return (

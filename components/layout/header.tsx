@@ -65,7 +65,13 @@ export function Header() {
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuGroup>
-                    <DropdownMenuItem>Profile</DropdownMenuItem>
+                    <DropdownMenuItem
+                      render={
+                        <Link href={`/profile/${session.user.id}`} />
+                      }
+                    >
+                      Profile
+                    </DropdownMenuItem>
                     <DropdownMenuItem>Settings</DropdownMenuItem>
                   </DropdownMenuGroup>
                   <DropdownMenuSeparator />

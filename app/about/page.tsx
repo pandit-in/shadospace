@@ -1,3 +1,20 @@
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "About Us",
+  description:
+    "Learn about Shadospace — a platform built for developers, creators, students, and lifelong learners to learn skills, share knowledge, and showcase their work.",
+  alternates: {
+    canonical: "https://shadospace.in/about",
+  },
+  openGraph: {
+    title: "About Shadospace | Platform for Developers by Developers",
+    description:
+      "Learn about Shadospace — a platform built for developers, creators, students, and lifelong learners.",
+    url: "https://shadospace.in/about",
+  },
+}
+
 export default function AboutPage() {
   return (
     <main className="mx-auto max-w-3xl px-6 py-20">

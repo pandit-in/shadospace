@@ -11,6 +11,17 @@ import {
 import Image from "next/image"
 import Link from "next/link"
 
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Home - Platform for Developers by Developers",
+  description:
+    "Explore articles, code snippets, engineering insights, and tech discussions written by developers on Shadospace.",
+  alternates: {
+    canonical: "https://shadospace.in",
+  },
+}
+
 export const revalidate = 0
 
 export default async function Page() {
