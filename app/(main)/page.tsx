@@ -45,18 +45,18 @@ export default async function Page() {
                       href={`/profile/${user.id}`}
                       className="flex items-center gap-2 text-foreground/80 hover:text-foreground"
                     >
-                      <Avatar className="size-5">
+                      <Avatar className="size-4">
                         <AvatarImage src={user.image ?? undefined} />
                         <AvatarFallback>{user.name?.[0] ?? ""}</AvatarFallback>
                       </Avatar>
                       <span>{`@${user.name?.toLowerCase().replaceAll(" ", "")}`}</span>
                     </Link>
                     <span>•</span>
-                    <span>{formatDate(new Date(post.createdAt))}</span>
+                    <span className="text-xs">{formatDate(new Date(post.createdAt))}</span>
                   </div>
 
                   <Link href={`/post/${post.id}`}>
-                    <h2 className="text-base font-semibold tracking-tight hover:text-red-700 hover:underline">
+                    <h2 className=" font-semibold tracking-tight hover:text-red-700 hover:underline">
                       {post.title}
                     </h2>
                   </Link>
@@ -94,10 +94,10 @@ export default async function Page() {
                       alt={post.title}
                       width={800}
                       height={600}
-                      className="h-auto w-full"
+                      className="h-auto w-full border rounded-lg"
                     />
                   ) : (
-                    <div className="flex h-40 items-center justify-center bg-muted/60 text-sm text-muted-foreground sm:h-44">
+                    <div className="flex border h-40 items-center justify-center bg-muted/60 text-sm text-muted-foreground sm:h-44">
                       No image
                     </div>
                   )}

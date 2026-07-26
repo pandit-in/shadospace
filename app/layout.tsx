@@ -42,8 +42,8 @@ export const metadata: Metadata = {
     "developer community",
   ],
   authors: [{ name: "Shadospace", url: siteUrl }],
-  creator: "Shadospace",
-  publisher: "Shadospace",
+  creator: "Pandit Pawar",
+  publisher: "Pandit Pawar",
   alternates: {
     canonical: "./",
   },
@@ -81,7 +81,7 @@ export const metadata: Metadata = {
     description:
       "A modern platform for developers by developers to share articles, code snippets, engineering insights, and tech discussions.",
     images: ["/logo.png"],
-    creator: "@shadospace",
+    creator: "@pandit_inn",
   },
   icons: {
     icon: "/favicon.ico",
