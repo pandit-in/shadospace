@@ -1,6 +1,5 @@
 import Reader from "@/components/reader"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
 import { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
@@ -25,7 +24,10 @@ export default async function page({
   }
   const { post, user } = result
 
-  const excerpt = post.content.replace(/<[^>]+>/g, "").slice(0, 160).trim()
+  const excerpt = post.content
+    .replace(/<[^>]+>/g, "")
+    .slice(0, 160)
+    .trim()
   const articleUrl = `https://shadospace.in/post/${post.id}`
 
   const articleJsonLd = {
@@ -33,9 +35,13 @@ export default async function page({
     "@type": "BlogPosting",
     headline: post.title,
     description: excerpt,
-    image: post.thumbnail ? [post.thumbnail] : ["https://shadospace.in/logo.png"],
+    image: post.thumbnail
+      ? [post.thumbnail]
+      : ["https://shadospace.in/logo.png"],
     datePublished: post.createdAt.toISOString(),
-    dateModified: post.updatedAt ? post.updatedAt.toISOString() : post.createdAt.toISOString(),
+    dateModified: post.updatedAt
+      ? post.updatedAt.toISOString()
+      : post.createdAt.toISOString(),
     author: [
       {
         "@type": "Person",
@@ -120,7 +126,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   const { post, user } = result
-  const excerpt = post.content.replace(/<[^>]+>/g, "").slice(0, 160).trim()
+  const excerpt = post.content
+    .replace(/<[^>]+>/g, "")
+    .slice(0, 160)
+    .trim()
   const articleUrl = `https://shadospace.in/post/${post.id}`
   const images = post.thumbnail ? [post.thumbnail] : ["/logo.png"]
 
