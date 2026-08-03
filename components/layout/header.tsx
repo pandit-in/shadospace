@@ -66,9 +66,7 @@ export function Header() {
                   <DropdownMenuSeparator />
                   <DropdownMenuGroup>
                     <DropdownMenuItem
-                      render={
-                        <Link href={`/profile/${session.user.id}`} />
-                      }
+                      render={<Link href={`/profile/${session.user.id}`} />}
                     >
                       Profile
                     </DropdownMenuItem>
@@ -88,7 +86,7 @@ export function Header() {
             </DropdownMenu>
           ) : (
             <Button variant="outline">
-              <Link href="/sign-in">Sign in</Link>
+              <Link href="/signin">Sign in</Link>
             </Button>
           )}
         </div>
