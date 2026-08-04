@@ -20,7 +20,7 @@ import { toast } from "sonner"
 export function Header() {
   const { data: session, isPending } = authClient.useSession()
   return (
-    <header className="sticky top-0 right-0 left-0 z-50 w-full border-b bg-background/95 backdrop-blur-sm">
+    <header className="sticky top-0 right-0 left-0 z-50 w-full border-b bg-background">
       <div className="mx-auto flex max-w-2xl items-center justify-between p-4">
         <Link href={"/"} className="flex items-center gap-2">
           <Image src={"/logo.png"} alt="logo" width={28} height={28} />
