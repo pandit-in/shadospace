@@ -10,7 +10,7 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-    --font-heading: var(--font-sans);
+    --font-heading: var(--font-heading);
     --font-sans: var(--font-sans);
     --color-sidebar-ring: var(--sidebar-ring);
     --color-sidebar-border: var(--sidebar-border);
@@ -50,7 +50,7 @@
     --radius-2xl: calc(var(--radius) * 1.8);
     --radius-3xl: calc(var(--radius) * 2.2);
     --radius-4xl: calc(var(--radius) * 2.6);
-    --font-mono: Geist Mono, monospace;
+    --font-mono: var(--font-mono);
     --font-serif: Georgia, serif;
     --radius: 0.5rem;
     --tracking-tighter: calc(var(--tracking-normal) - 0.05em);
@@ -201,6 +201,6 @@
     cursor: pointer;
     }
   html {
-    @apply font-sans;
+    @apply font-mono;
     }
 }

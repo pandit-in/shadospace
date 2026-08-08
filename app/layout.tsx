@@ -1,4 +1,4 @@
-import { Geist, Geist_Mono } from "next/font/google"
+import { Geist, Geist_Mono, JetBrains_Mono } from "next/font/google"
 import Script from "next/script"
 
 import "./globals.css"
@@ -13,12 +13,12 @@ import { Metadata, Viewport } from "next"
 import { TooltipProvider } from "@/components/ui/tooltip"
 import { Toaster } from "@/components/ui/sonner"
 
-const geist = Geist({ subsets: ["latin"], variable: "--font-sans" })
-
-const fontMono = Geist_Mono({
+const jetbrainsMonoHeading = JetBrains_Mono({
   subsets: ["latin"],
-  variable: "--font-mono",
+  variable: "--font-heading",
 })
+const geist = Geist({ subsets: ["latin"], variable: "--font-sans" })
+const geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-mono" })
 
 const siteUrl = "https://shadospace.in"
 
@@ -132,9 +132,9 @@ export default function RootLayout({
       suppressHydrationWarning
       className={cn(
         "antialiased",
-        fontMono.variable,
-        "font-sans",
-        geist.variable
+        geist.variable,
+        geistMono.variable,
+        jetbrainsMonoHeading.variable
       )}
     >
       <head>

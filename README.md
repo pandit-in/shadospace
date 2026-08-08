@@ -54,6 +54,10 @@ Shadospace is a modern publishing platform built for developers, creators, and c
 - The homepage is populated from the database, so make sure production and development are using the correct `DATABASE_URL`.
 - Deleting posts should remove them from the database and the feed once the app fetches current data.
 
+## Repository activity
+
+- 2026-08-05 — Scheduled README activity check completed.
+
 ## License
 
 This project is a developer-first publishing experience crafted for fast iteration and clean presentation.

@@ -23,15 +23,20 @@ export function Header() {
     <header className="sticky top-0 right-0 left-0 z-50 w-full border-b bg-background">
       <div className="mx-auto flex max-w-2xl items-center justify-between p-4">
         <Link href={"/"} className="flex items-center gap-2">
-          <Image src={"/logo.png"} alt="logo" width={28} height={28} />
+          <Image
+            src={"/shadospace-primary.png"}
+            alt="logo"
+            width={28}
+            height={28}
+          />
           <h1 className="text-xl font-semibold">Shadospace</h1>
         </Link>
 
         <div className="flex items-center gap-2">
           {isPending ? (
             <div className="flex items-center gap-2">
-              <Skeleton className="h-8 w-16 rounded-md" />
-              <Skeleton className="h-8 w-8 rounded-full" />
+              <Skeleton className="h-8 w-16" />
+              <Skeleton className="h-8 w-8" />
             </div>
           ) : session ? (
             <DropdownMenu>
