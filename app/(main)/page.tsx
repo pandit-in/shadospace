@@ -56,18 +56,14 @@ export default async function Page() {
                   href={`/post/${post.id}`}
                   className="relative overflow-hidden"
                 >
-                  {post.thumbnail ? (
+                  {post.thumbnail && (
                     <Image
                       src={post.thumbnail}
                       alt={post.title}
                       width={800}
                       height={600}
-                      className="mt-2 h-auto w-full"
+                      className="mt-2 h-58 w-full object-cover"
                     />
-                  ) : (
-                    <div className="flex h-40 items-center justify-center border bg-muted/60 text-sm text-muted-foreground sm:h-44">
-                      No image
-                    </div>
                   )}
                 </Link>
               </div>

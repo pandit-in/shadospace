@@ -17,7 +17,7 @@ import { headers } from "next/headers"
 export async function createPost(
   title: string,
   content: string,
-  thumbnail: string,
+  thumbnail: string | null | undefined,
   userId: string
 ) {
   await db.insert(post).values({
@@ -46,7 +46,7 @@ export async function updatePost(
   id: string,
   title: string,
   content: string,
-  thumbnail: string
+  thumbnail: string | null | undefined
 ) {
   const session = await auth.api.getSession({
     headers: await headers(),
@@ -55,7 +55,11 @@ export async function updatePost(
     throw new Error("Unauthorized")
   }
 
-  const existingPost = await db.select().from(post).where(eq(post.id, id)).limit(1)
+  const existingPost = await db
+    .select()
+    .from(post)
+    .where(eq(post.id, id))
+    .limit(1)
   if (!existingPost.length || existingPost[0].userId !== session.user.id) {
     throw new Error("Unauthorized to edit this post")
   }
@@ -89,13 +93,20 @@ export async function deletePost(id: string) {
     throw new Error("Unauthorized")
   }
 
-  const existingPost = await db.select().from(post).where(eq(post.id, id)).limit(1)
+  const existingPost = await db
+    .select()
+    .from(post)
+    .where(eq(post.id, id))
+    .limit(1)
   if (!existingPost.length || existingPost[0].userId !== session.user.id) {
     throw new Error("Unauthorized to delete this post")
   }
 
   const targetPost = existingPost[0]
-  const fileKeys = extractFileKeysFromPost(targetPost.thumbnail, targetPost.content)
+  const fileKeys = extractFileKeysFromPost(
+    targetPost.thumbnail,
+    targetPost.content
+  )
 
   await db.delete(post).where(eq(post.id, id))
 

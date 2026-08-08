@@ -27,7 +27,7 @@ const formSchema = z.object({
     .min(5, "Post title must be at least 5 characters.")
     .max(255, "Post title must be at most 32 characters."),
   content: z.string(),
-  thumbnail: z.url("Enter a valid image url"),
+  thumbnail: z.string().url("Enter a valid image url").nullable().optional(),
 })
 
 export default function Page() {
@@ -38,7 +38,7 @@ export default function Page() {
     defaultValues: {
       title: "",
       content: "",
-      thumbnail: "",
+      thumbnail: undefined,
     },
   })
 
@@ -78,7 +78,7 @@ export default function Page() {
                           className="absolute top-2 right-2 z-10"
                           variant={"destructive"}
                           type="button"
-                          onClick={() => field.onChange("")}
+                          onClick={() => field.onChange(null)}
                         >
                           Remove
                         </Button>
@@ -96,7 +96,7 @@ export default function Page() {
                           button:
                             "ut-ready:bg-red-800/50 -mb-3 text-sm ut-uploading:cursor-not-allowed bg-red-500 outline-none after:bg-red-400",
                           container:
-                            "w-full h-44 border-2 border-dashed border-red-500/10 rounded-md bg-red-500/10",
+                            "w-full h-44 border-2 border-dashed border-red-500/10 bg-red-500/10",
                           uploadIcon: "-mt-2",
                           label:
                             "text-xs text-muted-foreground hover:text-foreground/90",

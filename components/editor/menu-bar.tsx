@@ -98,7 +98,7 @@ export const MenuBar = ({ editor }: { editor: Editor }) => {
   }
 
   return (
-    <div className="button-group sticky top-16 z-30 flex w-full max-w-2xl flex-wrap items-center gap-1 rounded-lg rounded-b-none border border-b-0 border-input bg-background/95 px-2 py-1 shadow-sm backdrop-blur-sm">
+    <div className="button-group sticky top-16 z-30 flex w-full max-w-2xl flex-wrap items-center gap-1 border border-b-0 border-input bg-background/95 px-2 py-1 shadow-sm backdrop-blur-sm">
       <div className="flex flex-wrap items-center gap-1">
         {/* History */}
         <ToolbarButton

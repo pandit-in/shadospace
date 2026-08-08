@@ -34,7 +34,7 @@ export default function Editor({
   return (
     <>
       <MenuBar editor={editor} />
-      <div className="rounded-lg rounded-t-none border border-input bg-card">
+      <div className="border border-input bg-card">
         <EditorContent editor={editor} />
       </div>
     </>
