@@ -2,7 +2,7 @@
 
 Shadospace is a modern publishing platform built for developers, creators, and communities who want to share stories, ideas, and inspiration in a polished, expressive way.
 
-## What makes Shadospace special ✨
+## What makes Shadospace special update ✨
 
 - **Developer-friendly content platform**: Create and publish posts with rich author profiles, images, and custom text content.
 - **Server-rendered experience**: Built with Next.js using server-side database fetching for fast page loads and real-time content updates.
